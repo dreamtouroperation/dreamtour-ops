@@ -1,0 +1,2251 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="dt-hosted" content="1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1D2940">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cpath d=%22M32 4C18 4 12 15 12 24c0 10 9 18 15 24l1 6h8l1-6c6-6 15-14 15-24 0-9-6-20-20-20z%22 fill=%22%2324406E%22/%3E%3Crect x=%2226%22 y=%2255%22 width=%2212%22 height=%228%22 rx=%222%22 fill=%22%239E7230%22/%3E%3C/svg%3E">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Dream Tour</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one narrow travel-companion column (phone first) under a dawn-sky band with balloons; admin uses a wider working column. */
+:root{
+  --bg:#F3ECE1; --paper:#FCF9F4; --sand:#E8D8BE; --line:#DCCDB5;
+  --ink:#1D2940; --ink2:#5E6676; --gold:#9E7230; --gold-soft:#F0E0BF;
+  --balloon:#C0463A; --ok:#2E7656; --ok-soft:#DCEDE3; --warn:#9A5B10; --warn-soft:#F6E5CC;
+  --sky1:#F1C49D; --sky2:#EFD9BF; --sky3:#BCD0DE; --sky-ink:#1D2940;
+  --display:"Forum","Cormorant Garamond",Georgia,serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:18px; --shadow:0 1px 0 rgba(29,41,64,.04),0 10px 30px -18px rgba(29,41,64,.35);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1522; --paper:#162033; --sand:#22304A; --line:#2A3852;
+  --ink:#F0E7D7; --ink2:#A6AEBC; --gold:#D9B26C; --gold-soft:#3A3223;
+  --balloon:#E2695B; --ok:#6CC59B; --ok-soft:#173528; --warn:#E7AE5E; --warn-soft:#3A2A14;
+  --sky1:#1A2440; --sky2:#3B3553; --sky3:#B9805E; --sky-ink:#F4EADA; color-scheme:dark;
+  --shadow:0 10px 30px -18px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  --bg:#0E1522; --paper:#162033; --sand:#22304A; --line:#2A3852;
+  --ink:#F0E7D7; --ink2:#A6AEBC; --gold:#D9B26C; --gold-soft:#3A3223;
+  --balloon:#E2695B; --ok:#6CC59B; --ok-soft:#173528; --warn:#E7AE5E; --warn-soft:#3A2A14;
+  --sky1:#1A2440; --sky2:#3B3553; --sky3:#B9805E; --sky-ink:#F4EADA; color-scheme:dark;
+  --shadow:0 10px 30px -18px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;text-wrap:balance;margin:0}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap.wide{max-width:1120px}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.muted{color:var(--ink2)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* sky band */
+.sky{position:relative;overflow:hidden;color:var(--sky-ink);background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 55%,var(--sky3) 100%)}
+.sky .wrap{position:relative;z-index:1;padding-block:22px 30px}
+.sky svg.balloons{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.ridge{position:absolute;left:0;right:0;bottom:-1px;height:46px;z-index:0}
+.ridge path{fill:var(--bg)}
+.brand{display:flex;align-items:baseline;gap:8px}
+.brand b{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.02em}
+.brand span{font-size:10px;letter-spacing:.42em;text-transform:uppercase;font-weight:700;opacity:.75}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.link{background:none;border:0;padding:6px 0;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:13px;opacity:.85}
+.hero-title{font-size:clamp(30px,8vw,42px);line-height:1.05;margin-top:56px;padding-right:52px}
+.hero-sub{margin:10px 0 0;max-width:34ch;opacity:.85}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:color-mix(in srgb,var(--paper) 70%,transparent);border:1px solid color-mix(in srgb,var(--sky-ink) 14%,transparent);font-size:12.5px;font-weight:600}
+@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.float{animation:drift 9s ease-in-out infinite}
+.float.b{animation-duration:12s;animation-delay:-4s}.float.c{animation-duration:15s;animation-delay:-7s}
+@media (prefers-reduced-motion:reduce){.float{animation:none}}
+
+/* cards & forms */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.pagebody{padding-block:6px 48px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--ink2)}
+.input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:16px;outline:none}
+.input:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
+.input.code{letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;border:1px solid transparent;background:var(--ink);color:var(--bg);font-weight:700;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn:focus-visible,.tab:focus-visible,.who:focus-visible,.link:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn.gold{background:var(--gold);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{padding:8px 12px;font-size:13px;border-radius:10px}
+.btn[disabled]{opacity:.5;cursor:default}
+.err{color:var(--balloon);font-size:13.5px;font-weight:600}
+.hint{font-size:13px;color:var(--ink2)}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px}
+.tabs .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:14px;background:var(--sand)}
+.tab{border:0;background:transparent;padding:10px 6px;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--ink2)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink);box-shadow:var(--shadow)}
+
+/* who am I */
+.whos{display:flex;flex-direction:column;max-height:340px;overflow:auto;margin-top:10px;border-top:1px solid var(--line)}
+.who{display:flex;justify-content:space-between;gap:10px;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:12px 4px;cursor:pointer;font-weight:600}
+.who small{color:var(--ink2);font-weight:500}
+.hello{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hello h2{font-size:26px}
+
+/* today */
+.today{background:linear-gradient(160deg,var(--gold-soft),var(--paper) 70%);border-color:color-mix(in srgb,var(--gold) 35%,var(--line))}
+.today h3{font-size:28px;line-height:1.1;margin-top:6px}
+.today p{margin:8px 0 0}
+.daycount{font-family:var(--display);font-size:15px;color:var(--ink2)}
+.pkg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tag{padding:6px 12px;border-radius:999px;background:var(--sand);font-size:13px;font-weight:600}
+.tag.gold{background:var(--gold);color:#fff}
+.infos{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.infos li{padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--ink);font-size:14px}
+.bday{background:linear-gradient(120deg,var(--balloon),color-mix(in srgb,var(--balloon) 55%,var(--gold)));color:#fff;border:0}
+.bday h3{font-size:26px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.phone{font-weight:800;font-size:18px;user-select:all}
+
+/* route timeline */
+.route{list-style:none;margin:0;padding:0;position:relative}
+.route li{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:0 0 22px;position:relative}
+.route li::before{content:"";position:absolute;left:30px;top:30px;bottom:0;width:1px;background:var(--line)}
+.route li:last-child::before{display:none}
+.dnum{width:62px;text-align:center}
+.dnum .d{display:block;font-family:var(--display);font-size:28px;line-height:1}
+.dnum .m{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink2);font-weight:700}
+.route .body{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+.route .body h3{font-size:21px;margin-top:2px}
+.route .body p{margin:6px 0 0;color:var(--ink2);font-size:14px}
+.route li.past .body{opacity:.6}
+.route li.now .body{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.route li.now .dnum .d{color:var(--gold)}
+.badge{display:inline-block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--gold);color:#fff;margin-left:6px;vertical-align:middle}
+
+/* transfers */
+.big{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-top:6px}
+.big .t{font-family:var(--display);font-size:64px;line-height:.9}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:14px}
+.kv div{background:var(--bg);border-radius:12px;padding:10px 12px}
+.kv dt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);font-weight:700}
+.kv dd{margin:2px 0 0;font-weight:700}
+.slots{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.slot{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.slot .st{font-family:var(--display);font-size:26px}
+.slot small{display:block;color:var(--ink2);font-size:12.5px}
+.slot.mine{border-color:var(--gold);background:linear-gradient(90deg,var(--gold-soft),var(--paper))}
+.pill{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.pill.mine{background:var(--gold);color:#fff}.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.no{background:var(--sand);color:var(--ink2)}
+.empty{text-align:center;padding:26px 18px}
+.empty h3{font-size:22px}
+
+.foot{padding-block:24px 36px;text-align:center;font-size:12.5px;color:var(--ink2)}
+.previewbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600}
+.previewbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:8px}
+.previewbar .btn{background:var(--bg);color:var(--ink)}
+
+/* admin */
+.atop{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--paper);border-bottom:1px solid var(--line)}
+.atop .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:12px}
+.dirty{font-size:12.5px;font-weight:700;color:var(--warn);background:var(--warn-soft);padding:4px 10px;border-radius:999px}
+.agrid{display:grid;grid-template-columns:1fr;gap:16px;padding-block:18px 60px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0}
+.panel h2{font-size:24px;margin-bottom:4px}
+.panel>.hint{margin:0 0 14px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.fields .input,.tbl .input{font-size:14px;padding:9px 11px;border-radius:10px}
+.tourtabs{display:flex;gap:6px;flex-wrap:wrap}
+.tourtabs .btn{font-size:13px}
+.tourtabs .btn[aria-pressed="true"]{background:var(--gold);color:#fff}
+.tblwrap{overflow-x:auto;margin-top:8px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);text-align:left;font-weight:700;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td.nw{white-space:nowrap}
+.note{font-size:12.5px;color:var(--ink2);max-width:320px;white-space:pre-line}
+.uploads{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.drop{display:flex;flex-direction:column;gap:6px;border:1.5px dashed var(--line);border-radius:14px;padding:16px;cursor:pointer;background:var(--bg)}
+.drop:hover,.drop:focus-within{border-color:var(--gold)}
+.drop b{font-size:15px}
+.drop input{font-size:13px}
+.msg{font-size:13.5px;padding:10px 12px;border-radius:10px;background:var(--ok-soft);color:var(--ok);font-weight:600;margin-top:10px}
+.msg.bad{background:var(--warn-soft);color:var(--warn)}
+.daygrid{display:grid;grid-template-columns:90px 1fr 1fr 2fr auto;gap:8px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+@media (max-width:760px){.daygrid{grid-template-columns:1fr 1fr}.daygrid .wide2{grid-column:1/-1}}
+.private{font-size:11px;font-weight:800;color:var(--balloon);letter-spacing:.06em;text-transform:uppercase}
+
+/* ops console & guide cabinet */
+.seg.two{grid-template-columns:repeat(2,1fr)}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.day{flex:none;display:flex;flex-direction:column;align-items:center;min-width:56px;padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:var(--paper);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--ink2);cursor:pointer}
+.day b{font-family:var(--display);font-size:24px;font-weight:400;color:var(--ink);letter-spacing:0;line-height:1.1}
+.day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}.day[aria-pressed="true"] b{color:var(--bg)}
+.kind{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:4px 9px;border-radius:999px}
+.kind.arr{background:var(--ok-soft);color:var(--ok)}.kind.dep{background:var(--gold-soft);color:var(--gold)}
+.donecnt{font-family:var(--display);font-size:30px;color:var(--ink2)}.donecnt.all{color:var(--ok)}
+.fls{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fls .chip{background:var(--bg);border-color:var(--line)}
+.chip.bad{background:var(--warn-soft);color:var(--balloon);border-color:transparent}
+.linkbtn{background:none;border:0;padding:0;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.plist{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--line)}
+.plist li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-weight:600}
+.plist li small{color:var(--ink2);font-weight:500}
+.plist li .g{margin-left:auto;font-size:12px}
+.mark{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);color:transparent;font-weight:800;cursor:pointer}
+.mark[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.tlist{margin-top:12px;border-top:1px solid var(--line)}
+.trow{padding:12px 0;border-bottom:1px solid var(--line)}
+.snote{margin:8px 0 0;font-size:13px;color:var(--ink2)}
+.abar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:12px 8px}
+.aright{margin-left:auto}
+.daysel{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.daysel button{border:0;background:var(--paper);padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink2)}
+.daysel button+button{border-left:1px solid var(--line)}
+.daysel button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.atabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-bottom:-1px}
+.atab{border:0;background:none;padding:10px 14px;font-weight:700;font-size:13.5px;color:var(--ink2);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer}
+.atab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
+.atab .cnt{font-size:11px;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--sand);color:var(--ink)}
+.atab .cnt.bad{background:var(--warn-soft);color:var(--balloon)}
+.atop .wrap{display:block;padding-block:0}
+.apage{display:flex;flex-direction:column;gap:14px;padding-block:18px 60px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stat{background:var(--paper);padding:12px 14px;box-shadow:0 0 0 .5px var(--line)}
+.stat .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);font-weight:700}
+.stat .v{font-family:var(--display);font-size:32px;line-height:1.1}
+.stat .s{font-size:12px;color:var(--ink2)}
+.stat.bad .v{color:var(--balloon)}.stat.warn .v{color:var(--warn)}.stat.good .v{color:var(--ok)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters .input{width:auto;flex:1 1 220px;font-size:14px;padding:9px 12px}
+.board{display:grid;gap:10px}
+.run{display:grid;grid-template-columns:118px minmax(0,1fr) 300px;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.run.nog{border-left:4px solid var(--balloon)}
+.run .rt{padding:12px;background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.run .tt{font-family:var(--display);font-size:34px;line-height:1}
+.run .rk{font-size:12px;color:var(--ink2)}
+.run .veh{margin-top:8px;font-weight:800}
+.run .rm{padding:10px 14px;min-width:0}
+.run .rm .fls{margin-top:0}
+.names{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px}
+.names small{color:var(--ink2)}.names em{font-style:normal;font-size:11.5px;color:var(--gold);font-weight:700}
+.run .rs{padding:10px 12px;border-left:1px solid var(--line);display:grid;gap:8px;align-content:start}
+.run .rs label,.sidebox label{display:grid;gap:3px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);font-weight:700}
+.run .rs .input{font-size:13.5px;padding:7px 10px;border-radius:9px;text-transform:none;letter-spacing:0}
+.run .rs .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.ah{font-family:var(--display);font-size:24px;font-weight:400}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:16px;align-items:start}
+.sidebox{display:grid;gap:10px;position:sticky;top:130px}
+.msgbox{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;white-space:pre-wrap;font-size:12.5px;max-height:520px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace}
+.warnt{color:var(--warn);font-weight:700}.badt{color:var(--balloon);font-weight:700}
+.addrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.addrow .input{width:auto;flex:1 1 200px;font-size:14px;padding:9px 12px}
+.checks{display:grid;gap:8px}
+.chk{display:grid;grid-template-columns:6px minmax(0,1fr);text-align:left;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper);padding:0;cursor:pointer}
+.chk .bar{background:var(--warn)}.chk.crit .bar{background:var(--balloon)}.chk.info .bar{background:var(--line)}
+.chk .body{display:grid;gap:2px;padding:10px 14px}
+.chk .sev{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--warn)}
+.chk.crit .sev{color:var(--balloon)}.chk.info .sev{color:var(--ink2)}
+.chk .det{font-size:13px;color:var(--ink2)}
+.panel.empty{text-align:center}
+@media (max-width:860px){
+  .run{grid-template-columns:84px minmax(0,1fr)}
+  .run .rs{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)}
+  .run .tt{font-size:26px}
+  .split{grid-template-columns:minmax(0,1fr)}.sidebox{position:static}
+}
+
+/* arrivals board */
+.flight{display:grid;grid-template-columns:96px minmax(0,1fr) 230px;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ftime{padding:12px;background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.ftime .sch{font-family:var(--display);font-size:32px;line-height:1}
+.fmid{padding:10px 14px;min-width:0;display:grid;gap:6px;align-content:start}
+.fl-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.fl-code{font-family:var(--display);font-size:24px;letter-spacing:.02em}
+.grp{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;font-size:13px;padding:6px 0;border-top:1px dashed var(--line)}
+.grp .gd{font-size:12.5px;color:var(--ink2)}.grp .gd.no{color:var(--balloon);font-weight:700}
+.grp .px{font-weight:800}
+.gtoggle{justify-self:start;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--ink)}
+.gtoggle[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.guests{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:4px}
+.guests.flat{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.guest{width:100%;display:grid;grid-template-columns:minmax(0,1.4fr) auto minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 10px;font-size:13px;cursor:pointer}
+.guests.flat .guest{grid-template-columns:minmax(0,1fr) auto}
+.guest:hover{border-color:var(--gold)}
+.guest .gn{font-weight:700;min-width:0}.guest small{color:var(--ink2);font-weight:500}
+.guest em{font-style:normal;font-size:11.5px;color:var(--gold);font-weight:800;white-space:nowrap}
+.guest .gv,.guest .gg{font-size:12px;color:var(--ink2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fside{padding:10px 12px;border-left:1px solid var(--line);display:grid;gap:8px;align-content:start;font-size:13px}
+.status{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:12px;padding:4px 9px;border-radius:999px;justify-self:start}
+.status .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.sched{background:var(--sand);color:var(--ink2)}.status.air{background:var(--gold-soft);color:var(--gold)}.status.land{background:var(--ok-soft);color:var(--ok)}
+.status.air .dot{animation:pulse 1.6s infinite}@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.status.air .dot{animation:none}}
+.fside .veh{font-weight:800}.fside .veh small{display:block;font-weight:500;color:var(--ink2);font-size:12px}
+.nowline{display:flex;align-items:center;gap:8px;color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.08em}
+.nowline::before,.nowline::after{content:"";flex:1;height:2px;background:var(--gold)}
+.card0{background:var(--paper);border:1px solid var(--line);border-radius:14px}
+.dept td.t{font-family:var(--display);font-size:22px;white-space:nowrap}
+.dept tr.past td{color:var(--ink2)}.dept tr.soon td.t{color:var(--gold)}
+.dept .guests{min-width:280px}
+.dept .guest{grid-template-columns:minmax(0,1fr) auto}.dept .guest .gv,.dept .guest .gg{display:none}
+/* guest drawer */
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(14,21,34,.38);border:0;padding:0;cursor:default}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:31;width:min(440px,100%);background:var(--paper);border-left:1px solid var(--line);box-shadow:-20px 0 40px -20px rgba(0,0,0,.4);overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:calc(18px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) 18px}
+.dname{font-size:30px;line-height:1.1;margin-top:4px}
+.gsec{border-top:1px solid var(--line);padding-top:12px}
+.gbig{font-family:var(--display);font-size:34px;line-height:1.1;margin-top:4px}.gbig span{font-family:var(--body);font-size:14px;color:var(--ink2);font-weight:600}
+@media (max-width:860px){
+  .flight{grid-template-columns:72px minmax(0,1fr)}
+  .fside{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .ftime .sch{font-size:24px}
+  .grp{grid-template-columns:minmax(0,1fr) auto;row-gap:2px}
+  .guest{grid-template-columns:minmax(0,1fr) auto}.guest .gv,.guest .gg{grid-column:1/-1}
+}
+
+/* guide marks */
+.mtally{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;font-weight:800}
+.mtally span{padding:4px 10px;border-radius:999px;background:var(--sand);color:var(--ink2)}
+.mtally .ok{background:var(--ok-soft);color:var(--ok)}.mtally .bad{background:var(--warn-soft);color:var(--balloon)}
+.plist li{flex-wrap:wrap}
+.plist li .pn{flex:1 1 160px;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.plist li .pn .g{margin-left:0}
+.plist li.m-out .pn{color:var(--ok)}.plist li.m-no .pn{color:var(--balloon)}
+.mbtns{display:flex;gap:6px;flex:none}
+.mb{border:1.5px solid var(--line);background:var(--bg);color:var(--ink2);border-radius:10px;padding:9px 12px;font-weight:800;font-size:13px;cursor:pointer;min-height:42px}
+.mb.out[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.mb.no[aria-pressed="true"]{background:var(--balloon);border-color:var(--balloon);color:#fff}
+.mb[disabled]{opacity:.55;cursor:default}
+.syncnote.off{color:var(--balloon);font-weight:700}
+.mk{display:inline-block;font-size:11px;font-weight:800;padding:1px 7px;border-radius:999px;vertical-align:middle}
+.mk.out{background:var(--ok-soft);color:var(--ok)}.mk.no{background:var(--warn-soft);color:var(--balloon)}
+.met{font-size:12px;color:var(--ok);font-weight:700}
+.okt{color:var(--ok);font-weight:800}
+
+.drop.over{border-color:var(--gold);background:var(--gold-soft)}
+.pend{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 18%,transparent)}
+.pdate{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin:6px 0 10px}
+.pdate .f{max-width:220px}
+.chkl{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink2);padding-bottom:12px}
+
+/* office marks on the board, collapsed flights */
+.guests .gl{display:flex;gap:8px;align-items:center}
+.guests .gl .guest{flex:1;min-width:0}
+.guests .gl.m-out .guest{border-color:color-mix(in srgb,var(--ok) 45%,var(--line));background:var(--ok-soft)}
+.guests .gl.m-no .guest{border-color:color-mix(in srgb,var(--balloon) 45%,var(--line));background:var(--warn-soft)}
+.mbtns.sm .mb{min-height:34px;padding:6px 10px;font-size:12px}
+.flight.done{display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%;text-align:left;padding:10px 14px;cursor:pointer;color:var(--ink);font:inherit;opacity:.85}
+.flight.done:hover{opacity:1;border-color:var(--gold)}
+.flight.done .sch{font-family:var(--display);font-size:22px}
+.flight.done .fl-code{font-size:19px}
+.flight.done .more{margin-left:auto;font-size:12.5px;font-weight:700;text-decoration:underline;text-underline-offset:3px;color:var(--ink2)}
+@media (max-width:860px){.guests .gl{flex-wrap:wrap}.guests .gl .mbtns{width:100%}.guests .gl .mb{flex:1}}
+</style>
+<div id="app"></div>
+<script type="application/json" id="dt-data">{}</script>
+<script id="dt-app">
+/* Dream Tour core: parsing Excel lists, matching, encryption. Shared by the page and the seed script. */
+var DT = (function () {
+  'use strict';
+  var subtle = (globalThis.crypto || {}).subtle;
+
+  /* ---------- small helpers ---------- */
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function str(v) { return v == null ? '' : String(v).trim(); }
+  function isNum(v) { return typeof v === 'number' && isFinite(v); }
+
+  function toTime(v) {
+    if (v == null || v === '') return '';
+    if (v instanceof Date) return pad(v.getUTCHours()) + ':' + pad(v.getUTCMinutes());
+    if (isNum(v)) {
+      var frac = v - Math.floor(v);
+      if (v >= 1 && frac === 0) return '';
+      var m = Math.round(frac * 1440) % 1440;
+      return pad(Math.floor(m / 60)) + ':' + pad(m % 60);
+    }
+    var s = String(v).match(/(\d{1,2})[.:](\d{2})/);
+    if (s && +s[1] < 24 && +s[2] < 60) return pad(+s[1]) + ':' + s[2];
+    return '';
+  }
+
+  function toDate(v, refYear) {
+    refYear = refYear || new Date().getFullYear();
+    if (v == null || v === '') return '';
+    if (v instanceof Date) return v.getUTCFullYear() + '-' + pad(v.getUTCMonth() + 1) + '-' + pad(v.getUTCDate());
+    if (isNum(v)) {
+      if (v < 30000) return '';
+      var d = new Date(Date.UTC(1899, 11, 30) + Math.floor(v) * 864e5);
+      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+    }
+    var m = String(v).match(/(\d{1,2})[./](\d{1,2})(?:[./](\d{4}))?/);
+    if (!m) return '';
+    var y = m[3] ? +m[3] : refYear, dd = +m[1], mm = +m[2];
+    if (mm > 12 && dd <= 12) { var sw = dd; dd = mm; mm = sw; }
+    if (mm < 1 || mm > 12) return '';
+    if (y < refYear - 1 || y > refYear + 1) y = refYear;
+    return y + '-' + pad(mm) + '-' + pad(dd);
+  }
+
+  function minutes(t) { if (!t) return null; var p = t.split(':'); return +p[0] * 60 + +p[1]; }
+
+  function cleanName(raw) {
+    var s = str(raw).replace(/,+\s*$/, '');
+    var age = null;
+    var m = s.match(/(\d{1,2})\s*(лет|года|год|y\.?o\.?|yo)(?![a-zа-я])/i);
+    if (m) { age = +m[1]; s = s.replace(m[0], ''); }
+    s = s.replace(/\s+/g, ' ').trim();
+    return { name: s, age: age };
+  }
+
+  function normName(raw) {
+    var s = cleanName(raw).name.replace(/İ/g, 'I').replace(/ı/g, 'i').toUpperCase();
+    s = s.replace(/[^A-ZА-ЯЁ\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    return s.split(' ').sort().join(' ');
+  }
+
+  function titleCase(name) {
+    return name.toLowerCase().replace(/(^|[\s-])(\S)/g, function (a, b, c) { return b + c.toUpperCase(); });
+  }
+
+  function rows(XLSX, ws) {
+    if (Array.isArray(ws)) return ws;
+    return XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null, blankrows: true });
+  }
+
+  /* ---------- text sources (PDF, Word, photo, plain text) ----------
+     Lines of cells in reading order are turned into the same row layout the Excel parsers read. */
+  var RE_TIME = /^([01]?\d|2[0-3])[:.]([0-5]\d)$/, RE_DATE = /^(\d{1,2})[./](\d{1,2})(?:[./](\d{2,5}))?$/;
+  var RE_FLIGHT = /^(?=[A-Z0-9]*[A-Z])[A-Z0-9]{2}[\s-]?\d{1,5}[A-Z]?$/i, RE_FPRE = /^(?=[A-Z0-9]*[A-Z])[A-Z0-9]{2}-?$/i;
+  var RE_TERM = /^(T\d|D|IC|İÇ|IÇ|ICHAT|DIŞ|DIS|INT|DOM)$/i, RE_VEH = /^(VİTO|VITO|SPRİNTER|SPRINTER|SPR|OTOBÜS|OTOBUS|BUS|АВТОБУС|MIDI|MİDİ|MINI|MİNİ|VAN)$/i;
+  var RE_WORD = /^[A-Za-zА-Яа-яЁёÇĞİÖŞÜçğıöşü'’.\-]+$/;
+
+  function serialOf(d, m, y) { return Math.round((Date.UTC(y, m - 1, d) - Date.UTC(1899, 11, 30)) / 864e5); }
+  function normDate(w, refYear) {
+    var m = String(w).match(RE_DATE); if (!m) return null;
+    var d = +m[1], mo = +m[2], y = m[3] ? +String(m[3]).slice(0, 4) : refYear;
+    if (mo > 12 && d <= 12) { var x = d; d = mo; mo = x; }
+    if (y < 100) y += 2000;
+    if (y < refYear - 1 || y > refYear + 1) y = refYear;
+    if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+    return { d: d, m: mo, y: y, s: pad(d) + '.' + pad(mo) + '.' + y };
+  }
+  function classTok(w) {
+    if (RE_VEH.test(w)) return 'veh';
+    if (RE_TERM.test(w)) return 'term';
+    if (RE_FLIGHT.test(w)) return 'flight';
+    if (/:/.test(w) && RE_TIME.test(w)) return 'time';
+    if (RE_DATE.test(w)) return /[./]\d{4,5}$/.test(w) ? 'date' : RE_TIME.test(w) ? 'time' : 'date';
+    return 'word';
+  }
+  function cellOf(c) { return c && typeof c === 'object' ? { s: str(c.s), x: c.x } : { s: str(c), x: null }; }
+  function tokensX(cells) {
+    var out = [];
+    cells.forEach(function (c) {
+      c = cellOf(c);
+      var t = c.s.replace(/(\d{1,2})\s+(лет|года|год)(?![a-zа-я])/gi, '$1 $2');
+      t.split(/\s+/).forEach(function (w, k) { if (w) out.push({ s: w.replace(/ /g, ' '), x: c.x == null ? null : c.x + k * 0.01 }); });
+    });
+    for (var i = 0; i < out.length - 1; i++) if (/^([A-Z][A-Z0-9]|[0-9][A-Z])-?$/i.test(out[i].s) && /^\d{1,5}$/.test(out[i + 1].s)) out.splice(i, 2, { s: out[i].s.replace(/-$/, '') + ' ' + out[i + 1].s, x: out[i].x });
+    return out;
+  }
+  function parseLine(cells) {
+    var t = tokensX(cells), i = 0, date = null, no = null, name = [];
+    if (t[0] && classTok(t[0].s) === 'date' && t[1] && /^\d{1,3}[.)]?$/.test(t[1].s)) { date = t[0]; i = 1; }
+    if (/^\d{1,3}[.)]?$/.test((t[i] || {}).s || '') && t[i + 1] && RE_WORD.test(t[i + 1].s) && classTok(t[i + 1].s) === 'word') {
+      no = parseInt(t[i].s, 10); i++;
+      while (i < t.length && (classTok(t[i].s) === 'word' || /^\d{1,2} (лет|года|год)$/i.test(t[i].s))) name.push(t[i++].s);
+    } else i = 0;
+    var attrs = [], rest = [];
+    if (date) attrs.push({ t: 'date', v: date.s, x: date.x });
+    for (var j = i; j < t.length; j++) { var c = classTok(t[j].s); if (c !== 'word') attrs.push({ t: c, v: t[j].s, x: t[j].x }); else rest.push(t[j].s); }
+    return { no: no, name: name.join(' '), attrs: attrs, rest: t.slice(i).map(function (w) { return w.s; }).join(' '), text: t.map(function (w) { return w.s; }).join(' ') };
+  }
+
+  /* Arrivals / departures from a text source. Values printed once for a block (merged cells)
+     are given to every guest of that block, using the vertical position on the page. */
+  function resolveTransfers(entries, kind, refYear) {
+    var recs = entries.filter(function (e) { return e.no != null; });
+    var gaps = []; for (var k = 1; k < recs.length; k++) if (recs[k].page === recs[k - 1].page) gaps.push(recs[k].y - recs[k - 1].y);
+    gaps.sort(function (a, b) { return a - b; });
+    var gap = gaps.length ? Math.max(4, gaps[Math.floor(gaps.length / 2)]) : 14;
+    // time column roles from lines that show two times (departures: flight time, then pickup)
+    var ftX = null, puX = null;
+    entries.forEach(function (e) { var ts = e.attrs.filter(function (a) { return a.t === 'time' && a.x != null; }); if (ts.length >= 2 && ftX == null) { ftX = ts[0].x; puX = ts[1].x; } });
+    function timeRole(a, line) {
+      if (kind !== 'dep') return 'ft';
+      if (ftX != null && a.x != null) return Math.abs(a.x - ftX) <= Math.abs(a.x - puX) ? 'ft' : 'pu';
+      var ts = line.attrs.filter(function (x) { return x.t === 'time'; });
+      if (ts.length >= 2) return ts.indexOf(a) === 0 ? 'ft' : 'pu';
+      return line.attrs.some(function (x) { return x.t === 'flight'; }) ? 'ft' : 'pu';
+    }
+    // blocks: numbering restarts at 1 (one vehicle), or a label line in between
+    var blocks = [], cur = null, prevNo = 0;
+    entries.forEach(function (e) {
+      if (e.label) { cur = null; prevNo = 0; return; }
+      if (e.no == null) return;
+      if (!cur || e.no === 1 || e.no <= prevNo) { cur = { recs: [], attrs: [] }; blocks.push(cur); }
+      cur.recs.push(e); e.block = cur; prevNo = e.no;
+    });
+    // attribute lines -> nearest block on the same page
+    entries.forEach(function (e) {
+      if (e.no != null || e.label || !e.attrs.length) return;
+      var best = null, bd = Infinity;
+      blocks.forEach(function (b) {
+        b.recs.forEach(function (r) { if (r.page !== e.page) return; var d = Math.abs(r.y - e.y); if (d < bd) { bd = d; best = b; } });
+      });
+      if (best && bd <= gap * 6) best.attrs.push(e);
+    });
+    // dates: own, or the latest date line above the guest (date printed on the first row of its span)
+    var dated = entries.filter(function (e) { return e.no == null && !e.label && e.attrs.some(function (a) { return a.t === 'date'; }); });
+    recs.forEach(function (r) {
+      var best = null;
+      dated.forEach(function (d) { if (d.page < r.page || (d.page === r.page && d.y <= r.y + gap * 0.6)) { if (!best || d.page > best.page || (d.page === best.page && d.y > best.y)) best = d; } });
+      if (best) r.dateV = best.attrs.find(function (a) { return a.t === 'date'; }).v;
+    });
+    var rows = [], lastDate = null;
+    entries.forEach(function (e) {
+      if (e.label) { rows.push([e.text]); return; }
+      if (e.no == null) return;
+      var own = e.attrs, b = e.block;
+      var dOwn = own.find(function (a) { return a.t === 'date'; });
+      var dv = dOwn ? dOwn.v : e.dateV || null;
+      var nd = dv ? normDate(dv, refYear) : null;
+      if (nd) lastDate = nd; else nd = lastDate;
+      function pick(type, role) {
+        var a = own.find(function (x) { return x.t === type && (!role || timeRole(x, e) === role); });
+        if (a) return a.v;
+        var best = null, bd = Infinity;
+        b.attrs.forEach(function (l) { l.attrs.forEach(function (x) { if (x.t === type && (!role || timeRole(x, l) === role)) { var dd = Math.abs(l.y - e.y); if (dd < bd) { bd = dd; best = x.v; } } }); });
+        return best;
+      }
+      var flight = own.find(function (x) { return x.t === 'flight'; }), ft;
+      if (flight) { ft = own.find(function (x) { return x.t === 'time' && timeRole(x, e) === 'ft'; }); flight = flight.v; ft = ft ? ft.v : pick('time', 'ft'); }
+      else {
+        var fb = null, bd2 = Infinity;
+        b.attrs.forEach(function (l) { var f = l.attrs.find(function (x) { return x.t === 'flight'; }); if (f) { var dd = Math.abs(l.y - e.y); if (dd < bd2) { bd2 = dd; fb = l; } } });
+        if (fb) { flight = fb.attrs.find(function (x) { return x.t === 'flight'; }).v; var t2 = fb.attrs.find(function (x) { return x.t === 'time' && timeRole(x, fb) === 'ft'; }); ft = t2 ? t2.v : pick('time', 'ft'); }
+        else { flight = null; ft = pick('time', 'ft'); }
+      }
+      var term = pick('term'), veh = pick('veh'), ds = nd ? nd.s : null;
+      if (kind === 'dep') rows.push([ds, e.no, e.name, flight, term, ft, pick('time', 'pu'), veh]);
+      else {
+        var selfD = own.find(function (x) { return x.t === 'date' && x !== dOwn; });
+        var sd = selfD ? normDate(selfD.v, refYear) : null;
+        rows.push([ds, e.no, e.name, sd ? serialOf(sd.d, sd.m, sd.y) : flight, ft, term, veh]);
+      }
+      if (b.recs[b.recs.length - 1] === e && kind === 'dep') rows.push([]);
+    });
+    return rows;
+  }
+
+  function textWorkbook(lines, kind, refYear) {
+    refYear = refYear || new Date().getFullYear();
+    var sheets = {}, names = [], sections = [], cur = null, grp = 0, lastNo = 0;
+    function open(name, type) { cur = { name: name, type: type, entries: [] }; sections.push(cur); }
+    if (kind === 'groups') { grp = 1; open('ГРУППА 1', 'groups'); } else open(kind === 'dep' ? 'DEPARLAR' : 'ТРАНСФЕР', kind === 'dep' ? 'dep' : 'arr');
+    lines.forEach(function (cells, idx) {
+      var y = cells && cells.y != null ? cells.y : idx * 10, page = cells && cells.page != null ? cells.page : 0;
+      cells = (cells || []).filter(function (c) { return cellOf(c).s; });
+      if (!cells.length) return;
+      var L = parseLine(cells); L.y = y; L.page = page;
+      if (kind === 'groups') {
+        var g = L.text.match(/^(?:ГРУПП[АA]|GROUP|GRUP)\s*№?\s*(\d+)/i);
+        if (g) { if (cur.type === 'groups' && !cur.entries.length) cur.name = 'ГРУППА ' + g[1]; else open('ГРУППА ' + g[1], 'groups'); grp = +g[1]; lastNo = 0; return; }
+        if (/(İSİM|ISIM|UÇAK|UCAK|GELİŞ|GELIS|TARİH)/i.test(L.text) || /^(ТРАНСФЕР|TRANSFER|ПРИЛ[ЕЁ]ТЫ?|ARRIVALS?|KAPAK|КАПАК)$/i.test(L.text.trim())) { if (cur.type !== 'arr') open('ТРАНСФЕР', 'arr'); return; }
+        if (cur.type === 'groups' && L.no != null && L.attrs.some(function (a) { return a.t === 'flight' || a.t === 'time'; })) open('ТРАНСФЕР', 'arr');
+        if (cur.type === 'groups' && L.no === 1 && lastNo > 1) { grp++; open('ГРУППА ' + grp, 'groups'); }
+      }
+      if (/САМОСТОЯТ/i.test(L.text)) { L.label = true; cur.entries.push(L); return; }
+      if (L.no != null) lastNo = L.no;
+      cur.entries.push(L);
+    });
+    sections.forEach(function (sec) {
+      var rows;
+      if (sec.type === 'groups') rows = [['№', 'ФИО', 'Комментарии']].concat(sec.entries.filter(function (e) { return e.no != null; }).map(function (e) { return [e.no, e.name, e.rest || null]; }));
+      else rows = resolveTransfers(sec.entries, sec.type, refYear);
+      var n = sec.name, k = 2; while (sheets[n]) n = sec.name + ' (' + (k++) + ')';
+      if (rows.some(function (r) { return r.length > 1; })) { sheets[n] = rows; names.push(n); }
+    });
+    return { SheetNames: names, Sheets: sheets };
+  }
+
+  /* Positioned words (PDF text layer or OCR) -> lines of cells. */
+  function linesFromItems(items) {
+    var pages = {}, out = [];
+    items.forEach(function (it) { if (str(it.s)) (pages[it.page || 0] = pages[it.page || 0] || []).push(it); });
+    Object.keys(pages).sort(function (a, b) { return a - b; }).forEach(function (pg) {
+      var list = pages[pg].sort(function (a, b) { return a.y - b.y || a.x - b.x; }), lines = [];
+      list.forEach(function (it) {
+        var tol = Math.max(2, (it.h || 8) * 0.45);
+        var L = lines.find(function (l) { return Math.abs(l.y - it.y) <= tol; });
+        if (!L) { L = { y: it.y, items: [] }; lines.push(L); }
+        L.items.push(it);
+      });
+      lines.sort(function (a, b) { return a.y - b.y; }).forEach(function (L) {
+        var its = L.items.sort(function (a, b) { return a.x - b.x; }), cells = [], cur = null;
+        its.forEach(function (it) {
+          var ch = (it.w || 0) / Math.max(1, str(it.s).length) || (it.h || 8) * 0.5;
+          if (cur && it.x - cur.end <= Math.max(2.5, ch * 1.2)) { cur.s += (it.x - cur.end > ch * 0.25 ? ' ' : '') + str(it.s); cur.end = it.x + (it.w || ch * str(it.s).length); }
+          else { cur = { s: str(it.s), x: it.x, end: it.x + (it.w || ch * str(it.s).length) }; cells.push(cur); }
+        });
+        var line = cells.map(function (c) { return { s: c.s.trim(), x: c.x }; });
+        line.y = L.y; line.page = +pg;
+        out.push(line);
+      });
+    });
+    return out;
+  }
+
+  function linesFromText(text) {
+    return String(text || '').split(/\r?\n/).map(function (l) { return l.split(/\t|\s{2,}|\s*[;|]\s*/).map(function (c) { return c.trim(); }).filter(Boolean); });
+  }
+
+  /* Index of the "№" cell: a small integer followed by a name-like string. */
+  function noIndex(r) {
+    for (var i = 0; i < r.length - 1; i++) {
+      if (isNum(r[i]) && r[i] >= 1 && r[i] < 200 && Math.floor(r[i]) === r[i] && typeof r[i + 1] === 'string' && /[A-Za-zА-Яа-я]{2}/.test(r[i + 1])) return i;
+    }
+    return -1;
+  }
+
+  function vehicleName(v) {
+    var s = str(v).toUpperCase().replace(/İ/g, 'I');
+    if (!s) return '';
+    if (/SPR/.test(s)) return 'Sprinter';
+    if (/VIT/.test(s)) return 'Vito';
+    if (/OTOB|BUS|АВТОБ/.test(s)) return 'Автобус';
+    if (/MIDI/.test(s)) return 'Мидибус';
+    return titleCase(s);
+  }
+
+  /* The comment column mixes staff remarks with facts for the guest.
+     Only whitelisted facts (extra nights, transfer, surcharges, room setup) are ever shown to tourists. */
+  var PUBLIC_RE = /^(ДОП\.?\s*СУТКИ|ДОП\.?\s*ПЛАТА|ДОПЛАТА|ТРАНСФЕР|РАНЕЕ ЗАСЕЛЕНИЕ|РАННЕЕ ЗАСЕЛЕНИЕ|ПОЗДНИЙ ВЫЕЗД|РАЗДЕЛЬНЫЕ КРОВАТИ|ДВУСПАЛЬН)/i;
+  function sentence(s) {
+    s = s.replace(/[А-ЯЁA-Z]{2,}/g, function (w) { return /^(T\d|USD|EUR)$/.test(w) ? w : w.toLowerCase(); })
+      .replace(/доп\.\s*сутки/gi, 'доп. сутки').replace(/\s+-\s+/g, ' — ');
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+  function publicNotes(note) {
+    var out = { lines: [], birthday: '', pkg: '' };
+    if (!note) return out;
+    var b = note.match(/ДЕН[ЬЯ]\s*РОЖДЕН\S*(?:\s*ТУРИСТА)?\s*(\d{1,2})\.(\d{1,2})/i);
+    if (b) out.birthday = pad(+b[2]) + '-' + pad(+b[1]);
+    if (/ПРЕМИУМ\s*(ПЛЮС|\+)/i.test(note) && /ПАКЕТ/i.test(note)) out.pkg = 'Премиум+';
+    note.split(/\r?\n/).forEach(function (line) {
+      line = line.split(/‼|❗|!!|[\u{1F300}-\u{1FAFF}]/u)[0];
+      line.split(/,\s+(?=[А-ЯЁA-Z]{3})/).forEach(function (part) {
+        part = part.replace(/\s+/g, ' ').trim();
+        if (PUBLIC_RE.test(part)) out.lines.push(sentence(part).replace(/\s*\.$/, ''));
+      });
+    });
+    return out;
+  }
+
+  /* ---------- groups workbook (ГРУППА 1..N + ТРАНСФЕР) ---------- */
+  var PKG = { 'ПРЕМИУМ+': 'Премиум+', 'ПРЕМИУМ ПЛЮС': 'Премиум+', 'ПРЕМИУМ': 'Премиум', 'ЛАЙТ': 'Лайт' };
+
+  function parseGroupSheet(XLSX, ws, title) {
+    var R = rows(XLSX, ws), h = -1, cols = {};
+    for (var i = 0; i < Math.min(R.length, 15); i++) {
+      if (R[i].some(function (c) { return /ФИО|ИМЯ|NAME|İSİM/i.test(str(c)); })) { h = i; break; }
+    }
+    if (h < 0) return null;
+    var head = R[h].map(function (c) { return str(c); });
+    var nameCol = head.findIndex(function (c) { return /ФИО|ИМЯ|NAME|İSİM/i.test(c); });
+    var commentCol = head.findIndex(function (c) { return /КОММЕНТ|ПРИМЕЧ|NOT/i.test(c); });
+    var transferCol = head.findIndex(function (c) { return /^TRANSFER$|^ТРАНСФЕР$/i.test(c); });
+    var pkgCols = [], extraCols = [];
+    head.forEach(function (c, j) {
+      if (j <= nameCol || j === commentCol || j === transferCol || !c) return;
+      var u = c.toUpperCase().replace(/\s+/g, ' ');
+      if (PKG[u]) pkgCols.push([j, PKG[u]]); else extraCols.push([j, c]);
+    });
+    var tourists = [];
+    for (var r = h + 1; r < R.length; r++) {
+      var row = R[r], nm = row[nameCol];
+      if (typeof nm !== 'string' || !/[A-Za-zА-Яа-я]{2}/.test(nm)) continue;
+      if (/ИТОГО|TOTAL|ВСЕГО|ЖЕНЩИН|МУЖЧИН/i.test(nm)) continue;
+      if (nameCol > 0 && !isNum(row[nameCol - 1])) continue;
+      var cn = cleanName(nm), pkg = '', extras = [];
+      pkgCols.forEach(function (p) { if (str(row[p[0]])) pkg = p[1]; });
+      extraCols.forEach(function (e) {
+        var v = str(row[e[0]]);
+        if (v) extras.push(/^(x|х|\+|1|да|yes|v|✓|✔)$/i.test(v) ? e[1] : e[1] + ' (' + v + ')');
+      });
+      tourists.push({
+        id: 't' + r,
+        name: cn.name, age: cn.age, key: normName(nm),
+        pkg: pkg, extras: extras,
+        transfer: transferCol >= 0 ? str(row[transferCol]) : '',
+        note: commentCol >= 0 ? str(row[commentCol]) : '',
+        arrival: null, departure: null
+      });
+      var last = tourists[tourists.length - 1], pub = publicNotes(last.note);
+      last.info = pub.lines; last.birthday = pub.birthday;
+      if (!last.pkg && pub.pkg) last.pkg = pub.pkg;
+    }
+    return { name: titleCase(title.trim()), extrasList: extraCols.map(function (e) { return e[1]; }), tourists: tourists };
+  }
+
+  function parseArrivals(XLSX, ws, refYear) {
+    var R = rows(XLSX, ws), out = [], cur = {}, date = '', self = false, blk = 0;
+    R.forEach(function (row) {
+      var text = row.map(str).join(' ');
+      if (/САМОСТОЯТ/i.test(text)) { self = true; blk++; var d = toDate(text, refYear); if (d) date = d; cur = {}; return; }
+      var i = noIndex(row);
+      if (i < 0) return;
+      var d0 = i > 0 ? toDate(row[i - 1], refYear) : '';
+      if (d0) date = d0;
+      var flight = row[i + 2], fl = typeof flight === 'string' ? str(flight) : '';
+      if (isNum(flight) && flight > 30000) { self = true; date = toDate(flight, refYear) || date; }
+      if (fl && /[A-Z0-9]/i.test(fl)) { self = false; cur.flight = fl.replace(/\s+/g, ' '); cur.time = toTime(row[i + 3]) || cur.time; }
+      if (row[i] === 1) { blk++; if (!self) { cur.terminal = ''; cur.vehicle = ''; } }
+      if (str(row[i + 4])) cur.terminal = str(row[i + 4]).toUpperCase();
+      if (str(row[i + 5])) cur.vehicle = vehicleName(row[i + 5]);
+      out.push({
+        key: normName(row[i + 1]), name: cleanName(row[i + 1]).name, date: date,
+        self: self, flight: self ? '' : cur.flight || '', time: self ? '' : cur.time || '',
+        terminal: self ? '' : cur.terminal || '', vehicle: self ? '' : cur.vehicle || '', blk: blk
+      });
+    });
+    return out;
+  }
+
+  function parseGroupsWorkbook(XLSX, wb, refYear) {
+    var groups = [], arrivals = [];
+    wb.SheetNames.forEach(function (n) {
+      var ws = wb.Sheets[n];
+      if (/ГРУПП|GROUP|GRUP/i.test(n)) { var g = parseGroupSheet(XLSX, ws, n); if (g && g.tourists.length) groups.push(g); }
+      else if (/ТРАНСФ|TRANSF|GELİŞ|GELIS|ARRIV|ПРИЛЕТ|ПРИЛЁТ|KAPAK|КАПАК/i.test(n)) arrivals = arrivals.concat(parseArrivals(XLSX, ws, refYear));
+    });
+    // A file with only an arrivals list (KAPAK) and unusual sheet names: read every sheet as arrivals.
+    if (!groups.length && !arrivals.length) wb.SheetNames.forEach(function (n) { arrivals = arrivals.concat(parseArrivals(XLSX, wb.Sheets[n], refYear).filter(function (a) { return a.flight || a.self; })); });
+    var byKey = {};
+    arrivals.forEach(function (a) { byKey[a.key] = a; });
+    var matched = 0;
+    groups.forEach(function (g) {
+      g.tourists.forEach(function (t) {
+        var a = byKey[t.key];
+        if (a) { matched++; t.arrival = { date: a.date, self: a.self, flight: a.flight, time: a.time, terminal: a.terminal, vehicle: a.vehicle }; }
+      });
+    });
+    return { groups: groups, arrivals: arrivals.length, arrivalsMatched: matched, arrivalList: arrivals };
+  }
+
+  /* ---------- departures workbook (DEPARLAR) ---------- */
+  function parseDeparturesWorkbook(XLSX, wb, refYear) {
+    var pax = [], slots = [];
+    wb.SheetNames.forEach(function (n) {
+      var R = rows(XLSX, wb.Sheets[n]), date = '', blk = null, fl = {};
+      R.forEach(function (row) {
+        var i = noIndex(row);
+        if (i < 0) { if (row.every(function (c) { return c == null || str(c) === ''; })) blk = null; return; }
+        var d0 = i > 0 ? toDate(row[i - 1], refYear) : '';
+        if (d0) date = d0;
+        var pickup = toTime(row[i + 5]), veh = vehicleName(row[i + 6]);
+        if (!blk || row[i] === 1 || (pickup && blk.pickup && pickup !== blk.pickup)) {
+          blk = { date: date, pickup: pickup, vehicle: veh, flights: [], pax: 0 };
+          slots.push(blk);
+        }
+        if (pickup) blk.pickup = pickup;
+        if (veh) blk.vehicle = veh;
+        var f = str(row[i + 2]);
+        if (f && !isNum(row[i + 2])) { fl = { flight: f.replace(/\s+/g, ' ').toUpperCase().replace(/İ/g, 'I'), terminal: '', time: '' }; }
+        if (str(row[i + 3])) fl.terminal = str(row[i + 3]).toUpperCase();
+        if (toTime(row[i + 4])) fl.time = toTime(row[i + 4]);
+        if (fl.flight && blk.flights.every(function (x) { return x.flight !== fl.flight; })) blk.flights.push({ flight: fl.flight, time: fl.time, terminal: fl.terminal });
+        blk.pax++;
+        pax.push({
+          key: normName(row[i + 1]), name: cleanName(row[i + 1]).name,
+          date: date, flight: fl.flight || '', time: fl.time || '', terminal: fl.terminal || '',
+          pickupDate: blk.date, pickup: blk.pickup || '', vehicle: blk.vehicle || '', _b: blk
+        });
+      });
+    });
+    // block-level pickup/vehicle apply to every row of the block; run key ties rows to one vehicle
+    pax.forEach(function (p) {
+      var b = p._b; delete p._b;
+      p.pickup = b.pickup || p.pickup; p.vehicle = b.vehicle || p.vehicle;
+      p.run = ['D', b.date, b.pickup, b.vehicle, (b.flights[0] || {}).flight || ''].join('|');
+    });
+    slots = slots.filter(function (s) { return s.pickup; }).map(function (s) {
+      return { date: s.date, pickup: s.pickup, vehicle: s.vehicle, flights: s.flights, pax: s.pax };
+    });
+    return { pax: pax, slots: slots };
+  }
+
+  /* Merge a departures upload into state and attach to tourists by name. */
+  function applyDepartures(state, dep) {
+    state.departures = state.departures || { pax: [], slots: [] };
+    var dates = {};
+    dep.slots.forEach(function (s) { dates[s.date] = 1; });
+    dep.pax.forEach(function (p) { dates[p.pickupDate] = 1; });
+    state.departures.slots = state.departures.slots.filter(function (s) { return !dates[s.date]; }).concat(dep.slots);
+    state.departures.pax = state.departures.pax.filter(function (p) { return !dates[p.pickupDate]; }).concat(dep.pax);
+    return matchDepartures(state);
+  }
+
+  /* Merge an arrivals list into a tour (dates in the new list replace the old ones) and refresh tourists' arrival. */
+  function applyArrivals(tour, list) {
+    var dates = {};
+    list.forEach(function (a) { dates[a.date] = 1; });
+    tour.arrivals = (tour.arrivals || []).filter(function (a) { return !dates[a.date]; }).concat(list);
+    return matchArrivals(tour);
+  }
+  function matchArrivals(tour) {
+    var by = {}, n = 0;
+    (tour.arrivals || []).forEach(function (a) { by[a.key] = a; });
+    tour.groups.forEach(function (g) {
+      g.tourists.forEach(function (t) {
+        var a = by[t.key];
+        if (a) { n++; t.arrival = { date: a.date, self: a.self, flight: a.flight, time: a.time, terminal: a.terminal, vehicle: a.vehicle }; }
+      });
+    });
+    return n;
+  }
+
+  /* Short, name-free id for a guest in one vehicle run; used for guide marks on the server. */
+  function markId(run, pax) {
+    var k = run + '|' + pax, h1 = 0x811c9dc5, h2 = 0x01000193 ^ k.length;
+    for (var i = 0; i < k.length; i++) { var c = k.charCodeAt(i); h1 = Math.imul(h1 ^ c, 16777619); h2 = Math.imul(h2 ^ c, 2246822519); }
+    return ((h1 >>> 0).toString(16) + (h2 >>> 0).toString(16)).padStart(16, '0');
+  }
+
+  function matchDepartures(state) {
+    var by = {}, n = 0;
+    ((state.departures || {}).pax || []).forEach(function (p) { by[p.key] = p; });
+    state.tours.forEach(function (tour) {
+      tour.groups.forEach(function (g) {
+        g.tourists.forEach(function (t) {
+          var p = by[t.key];
+          if (p) { n++; t.departure = { date: p.date, flight: p.flight, time: p.time, terminal: p.terminal, pickupDate: p.pickupDate, pickup: p.pickup, vehicle: p.vehicle }; }
+          else if (t.departure && !t.departure.manual) t.departure = null;
+        });
+      });
+    });
+    return n;
+  }
+
+  /* ---------- operations: vehicle runs (arrivals and departures) ---------- */
+  function touristIndex(state) {
+    var idx = {};
+    state.tours.forEach(function (tour) {
+      tour.groups.forEach(function (g) {
+        g.tourists.forEach(function (t) { idx[t.key] = { group: g.name, groupId: g.id, tour: tour.title, age: t.age, t: t }; });
+      });
+    });
+    return idx;
+  }
+
+  function runs(state) {
+    var idx = touristIndex(state), out = [], selfs = [], assign = state.assign || {};
+    state.tours.forEach(function (tour) {
+      if (tour.archived) return;
+      var blocks = {};
+      (tour.arrivals || []).forEach(function (a) {
+        var k = a.date + '#' + a.blk;
+        (blocks[k] = blocks[k] || []).push(a);
+      });
+      Object.keys(blocks).forEach(function (k) {
+        var rows = blocks[k], f = rows[0];
+        var pax = rows.map(function (a) { var i = idx[a.key] || {}; return { name: a.name, key: a.key, group: i.group || '', age: i.age || null, flight: a.flight, time: a.time, terminal: a.terminal }; });
+        if (f.self) { selfs.push({ date: f.date, pax: pax }); return; }
+        var flights = [];
+        rows.forEach(function (a) { if (a.flight && flights.every(function (x) { return x.flight !== a.flight; })) flights.push({ flight: a.flight, time: a.time, terminal: a.terminal }); });
+        var key = ['A', f.date, f.time, f.vehicle, f.flight].join('|');
+        out.push({ key: key, kind: 'arr', date: f.date, time: flights.reduce(function (m, x) { return x.time && (!m || x.time < m) ? x.time : m; }, ''),
+          vehicle: f.vehicle, flights: flights, pax: pax, a: assign[key] || {} });
+      });
+    });
+    var dep = {};
+    ((state.departures || {}).pax || []).forEach(function (p) {
+      if (!p.run) return;
+      (dep[p.run] = dep[p.run] || []).push(p);
+    });
+    Object.keys(dep).forEach(function (key) {
+      var rows = dep[key], f = rows[0], flights = [];
+      rows.forEach(function (p) { if (p.flight && flights.every(function (x) { return x.flight !== p.flight; })) flights.push({ flight: p.flight, time: p.time, terminal: p.terminal, date: p.date }); });
+      out.push({ key: key, kind: 'dep', date: f.pickupDate, time: f.pickup, vehicle: f.vehicle, flights: flights,
+        pax: rows.map(function (p) { var i = idx[p.key] || {}; return { name: p.name, key: p.key, group: i.group || '', age: i.age || null, flight: p.flight, time: p.time, terminal: p.terminal, date: p.date }; }), a: assign[key] || {} });
+    });
+    out.sort(function (x, y) { return (x.date + x.time).localeCompare(y.date + y.time); });
+    return { runs: out, selfs: selfs };
+  }
+
+  function guideById(state, id) { return (state.guides || []).find(function (g) { return g.id === id; }) || null; }
+
+  /* What a guide sees after entering a personal code: own vehicle runs and own groups. */
+  function guidePayload(state, gd) {
+    var R = runs(state).runs.filter(function (r) { return r.a.guideId === gd.id; }).map(function (r) {
+      return { key: r.key, kind: r.kind, date: r.date, time: r.time, vehicle: r.vehicle, flights: r.flights, pax: r.pax,
+        plate: r.a.plate || '', driver: r.a.driver || '', driverPhone: r.a.driverPhone || '', note: r.a.note || '' };
+    });
+    var groups = [];
+    state.tours.forEach(function (tour) {
+      if (tour.archived) return;
+      tour.groups.forEach(function (g) {
+        if (g.guideId !== gd.id) return;
+        groups.push({ tour: tour.title, start: tour.start, end: tour.end, route: tour.route, name: g.name,
+          tourists: g.tourists.map(function (t) { return { name: t.name, age: t.age, pkg: t.pkg, extras: t.extras, info: t.info || [], note: t.note || '', birthday: t.birthday || '', arrival: t.arrival, departure: t.departure }; }) });
+      });
+    });
+    return { role: 'guide', guide: { id: gd.id, name: gd.name, phone: gd.phone || '' }, runs: R, groups: groups, contact: state.contact || null };
+  }
+
+  /* Hotel pickups on one date, rated against the tourist's flight. */
+  function pickupOptions(slots, dep) {
+    if (!dep || !dep.pickupDate) return [];
+    var f = minutes(dep.time);
+    return slots.filter(function (s) { return s.date === dep.pickupDate; })
+      .map(function (s) {
+        var p = minutes(s.pickup), lead = f == null ? null : ((f - p + 1440) % 1440);
+        var mine = s.pickup === dep.pickup && (!dep.vehicle || s.vehicle === dep.vehicle);
+        return { pickup: s.pickup, vehicle: s.vehicle, flights: s.flights, pax: s.pax, lead: lead, mine: mine,
+          fits: lead != null && lead >= 150 && lead <= 330 };
+      })
+      .sort(function (a, b) { return minutes(a.pickup) - minutes(b.pickup); });
+  }
+
+  /* ---------- passwords ---------- */
+  var WORDS = ['SHAR', 'KAPPA', 'PAMUK', 'GOREME', 'URGUP', 'KONYA', 'AVANOS', 'TAURUS', 'LIKIA', 'KEMER', 'SIDE', 'ASPENDOS', 'PERGE', 'DUDEN', 'KALEICI', 'MIRA', 'UCHISAR', 'ZELVE', 'HIERA', 'TRAVERTIN'];
+  function randInt(n) { var a = new Uint32Array(1); globalThis.crypto.getRandomValues(a); return a[0] % n; }
+  function newPassword(taken) {
+    for (var k = 0; k < 200; k++) {
+      var p = WORDS[randInt(WORDS.length)] + '-' + (1000 + randInt(9000));
+      if (!taken || taken.every(function (x) { return x.split('-')[0] !== p.split('-')[0]; }) || k > 100 && taken.indexOf(p) < 0) return p;
+    }
+    return 'DT-' + Date.now();
+  }
+  function normPass(p) { return str(p).toUpperCase().replace(/\s+/g, '').replace(/[–—_]/g, '-'); }
+
+  /* ---------- crypto ---------- */
+  var enc = new TextEncoder(), dec = new TextDecoder();
+  function b64(buf) { var s = '', a = new Uint8Array(buf); for (var i = 0; i < a.length; i += 8192) s += String.fromCharCode.apply(null, a.subarray(i, i + 8192)); return btoa(s); }
+  function unb64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+  function rand(n) { var a = new Uint8Array(n); globalThis.crypto.getRandomValues(a); return a; }
+
+  async function baseKey(pass) { return subtle.importKey('raw', enc.encode(normPass(pass)), 'PBKDF2', false, ['deriveBits', 'deriveKey']); }
+  async function tagFor(pass, tagSalt) {
+    var bits = await subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: unb64(tagSalt), iterations: 60000 }, await baseKey(pass), 64);
+    return Array.from(new Uint8Array(bits)).map(function (x) { return (x < 16 ? '0' : '') + x.toString(16); }).join('');
+  }
+  async function aesKey(pass, salt) {
+    return subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: 120000 }, await baseKey(pass), { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  async function seal(obj, pass) {
+    var s = rand(16), iv = rand(12);
+    var ct = await subtle.encrypt({ name: 'AES-GCM', iv: iv }, await aesKey(pass, s), enc.encode(JSON.stringify(obj)));
+    return { s: b64(s), i: b64(iv), c: b64(ct) };
+  }
+  async function open(box, pass) {
+    var pt = await subtle.decrypt({ name: 'AES-GCM', iv: unb64(box.i) }, await aesKey(pass, unb64(box.s)), unb64(box.c));
+    return JSON.parse(dec.decode(pt));
+  }
+
+  /* What a tourist of one group gets after entering the group code. */
+  function groupPayload(state, tour, g) {
+    var dates = {};
+    g.tourists.forEach(function (t) { if (t.departure && t.departure.pickupDate) dates[t.departure.pickupDate] = 1; });
+    var slots = ((state.departures || {}).slots || []).filter(function (s) { return dates[s.date]; });
+    return {
+      tour: { id: tour.id, title: tour.title, subtitle: tour.subtitle || '', start: tour.start, end: tour.end, route: tour.route, info: tour.info || '' },
+      role: 'group',
+      group: { id: g.id, name: g.name, guide: (guideById(state, g.guideId) || {}).name || g.guide || '', phone: (guideById(state, g.guideId) || {}).phone || g.phone || '', tourists: g.tourists.map(function (t) {
+        // t.note (staff comment) is deliberately left out: it stays in the admin copy only.
+        return { id: t.id, name: t.name, age: t.age, pkg: t.pkg, extras: t.extras, info: t.info || [], birthday: t.birthday || '', arrival: t.arrival, departure: t.departure };
+      }) },
+      slots: slots,
+      contact: state.contact || null
+    };
+  }
+
+  async function buildData(state, adminPass) {
+    var tagSalt = b64(rand(16)), groups = [];
+    for (var a = 0; a < state.tours.length; a++) {
+      var tour = state.tours[a];
+      if (tour.archived) continue;
+      for (var b = 0; b < tour.groups.length; b++) {
+        var g = tour.groups[b];
+        if (!g.password) continue;
+        var box = await seal(groupPayload(state, tour, g), g.password);
+        box.t = await tagFor(g.password, tagSalt);
+        groups.push(box);
+      }
+    }
+    var guides = state.guides || [], markAuth = {};
+    for (var c = 0; c < guides.length; c++) {
+      if (!guides[c].code) continue;
+      markAuth[guides[c].id] = await sha256hex(await markKey(guides[c].code));
+      var gb = await seal(guidePayload(state, guides[c]), guides[c].code);
+      gb.t = await tagFor(guides[c].code, tagSalt);
+      groups.push(gb);
+    }
+    return { v: 3, updated: new Date().toISOString(), tagSalt: tagSalt, admin: await seal(state, adminPass), groups: groups, markAuth: markAuth };
+  }
+
+  /* Proof of a guide code for the marks API; the server keeps only sha256 of it. */
+  async function markKey(code) {
+    var bits = await subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: enc.encode('dreamtour-mark-v1'), iterations: 100000 }, await baseKey(code), 256);
+    return hex(bits);
+  }
+
+  /* Proof of the admin password for the hosting server; the server keeps only sha256 of it. */
+  async function writeKey(pass) {
+    var bits = await subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: enc.encode('dreamtour-write-v1'), iterations: 150000 }, await baseKey(pass), 256);
+    return hex(bits);
+  }
+  function hex(buf) { return Array.from(new Uint8Array(buf)).map(function (x) { return (x < 16 ? '0' : '') + x.toString(16); }).join(''); }
+  async function sha256hex(str) { return hex(await subtle.digest('SHA-256', enc.encode(str))); }
+
+  async function unlockGroup(data, pass) {
+    if (!data || !data.groups) return null;
+    var t = await tagFor(pass, data.tagSalt);
+    var box = data.groups.find(function (g) { return g.t === t; });
+    if (!box) return null;
+    try { return await open(box, pass); } catch (e) { return null; }
+  }
+  async function unlockAdmin(data, pass) {
+    try { return await open(data.admin, pass); } catch (e) { return null; }
+  }
+
+  function addDays(iso, n) {
+    var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function defaultRoute(start) {
+    var R = [
+      ['Анталья', 'Прилёт и заселение', 'Встреча в аэропорту, трансфер в отель, отдых после дороги.'],
+      ['Анталья → Памуккале', 'Дорога к травертинам', 'Переезд в Памуккале. Белые террасы и античный Иераполис на закате.'],
+      ['Памуккале → Каппадокия', 'Через Анатолию', 'Длинный переезд с остановками. Вечером заселение в Каппадокии.'],
+      ['Каппадокия', 'Рассвет с воздушными шарами', 'Ранний подъём к шарам, долины, скальные города.'],
+      ['Каппадокия', 'День впечатлений', 'Время для допов: джип-сафари, прогулка на лошадях, фотосессия в платье.'],
+      ['Каппадокия → Анталья', 'Возвращение к морю', 'Обратный переезд в Анталью, заселение.'],
+      ['Анталья', 'Свободный день', 'Море, старый город Калеичи, прощальный ужин.'],
+      ['Анталья', 'Вылет', 'Трансфер из отеля в аэропорт по вашему времени забора.']
+    ];
+    return R.map(function (r, i) { return { date: addDays(start, i), place: r[0], title: r[1], text: r[2] }; });
+  }
+
+  return {
+    toTime: toTime, toDate: toDate, minutes: minutes, normName: normName, cleanName: cleanName, titleCase: titleCase,
+    parseGroupsWorkbook: parseGroupsWorkbook, textWorkbook: textWorkbook, linesFromItems: linesFromItems, linesFromText: linesFromText, parseDeparturesWorkbook: parseDeparturesWorkbook,
+    applyDepartures: applyDepartures, matchDepartures: matchDepartures, pickupOptions: pickupOptions,
+    runs: runs, guidePayload: guidePayload, guideById: guideById, touristIndex: touristIndex,
+    newPassword: newPassword, normPass: normPass, writeKey: writeKey, sha256hex: sha256hex, markKey: markKey, markId: markId, applyArrivals: applyArrivals, matchArrivals: matchArrivals, buildData: buildData, unlockGroup: unlockGroup, unlockAdmin: unlockAdmin,
+    groupPayload: groupPayload, addDays: addDays, defaultRoute: defaultRoute
+  };
+})();
+
+
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var DATA = {};
+  try { DATA = JSON.parse(document.getElementById('dt-data').textContent || '{}'); } catch (e) { DATA = {}; }
+  /* Hosted build (Netlify): data lives behind /api/data instead of inside the page. */
+  var HOSTED = !!document.querySelector('meta[name="dt-hosted"]');
+  var dataReady = HOSTED ? fetch('/api/data', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : fetch('/seed.json', { cache: 'no-store' }).then(function (x) { return x.ok ? x.json() : {}; }); })
+    .then(function (d) { DATA = d || {}; }).catch(function () {}) : Promise.resolve();
+
+  var S = { view: 'login', payload: null, meId: null, tab: 'home', err: '', busy: false, preview: false,
+            admin: null, adminPass: '', newAdminPass: '', dirty: false, tourIdx: 0, groupIdx: 0, msg: null, canEdit: false, artifact: null, open: {}, guest: null };
+
+  /* ---------- utils ---------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function todayISO() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  var MON = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  var MONL = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+  var WD = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+  function dparts(iso) { var p = (iso || '').split('-'); return { y: +p[0], m: +p[1], d: +p[2] }; }
+  function dLong(iso) { if (!iso) return ''; var p = dparts(iso); return p.d + ' ' + MONL[p.m - 1]; }
+  function dShort(iso) { if (!iso) return ''; var p = dparts(iso); return p.d + ' ' + MON[p.m - 1]; }
+  function wday(iso) { return WD[new Date(iso + 'T12:00:00').getDay()]; }
+  function range(a, b) {
+    if (!a) return ''; var A = dparts(a), B = dparts(b || a);
+    return A.m === B.m ? A.d + '–' + B.d + ' ' + MONL[B.m - 1] : dLong(a) + ' – ' + dLong(b);
+  }
+  function diffDays(a, b) { return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5); }
+  function nice(name) { return DT.titleCase(name || ''); }
+  function firstName(name) { var p = nice(name).split(' '); return p.length > 1 ? p[0] : p[0]; }
+  function leadText(m) { if (m == null) return ''; var h = Math.floor(m / 60), mm = m % 60; return h + ' ч' + (mm ? ' ' + mm + ' мин' : ''); }
+  function plural(n, a, b, c) { var m10 = n % 10, m100 = n % 100; return n + ' ' + (m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c); }
+
+  var BALLOONS = '<svg class="balloons" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+    '<defs><g id="bl"><path d="M0-34C-21-34-30-17-30-4-30 10-17 21-8 30L-6 36H6L8 30C17 21 30 10 30-4 30-17 21-34 0-34Z"/>' +
+    '<path d="M-6 36L-5 44M6 36L5 44" stroke="currentColor" stroke-width="1" fill="none" opacity=".6"/><rect x="-6" y="44" width="12" height="9" rx="1.5"/></g>' +
+    '<clipPath id="bc"><path d="M0-34C-21-34-30-17-30-4-30 10-17 21-8 30L-6 36H6L8 30C17 21 30 10 30-4 30-17 21-34 0-34Z"/></clipPath></defs>' +
+    '<g class="float" style="color:#1D2940"><g transform="translate(364 112) scale(.82)"><use href="#bl" fill="#24406E"/>' +
+    '<g clip-path="url(#bc)"><rect x="-18" y="-40" width="9" height="80" fill="#F2E6CF"/><rect x="0" y="-40" width="9" height="80" fill="#F2E6CF"/><rect x="18" y="-40" width="9" height="80" fill="#F2E6CF"/></g></g></g>' +
+    '<g class="float b"><g transform="translate(238 34) scale(.55)" opacity=".9"><use href="#bl" fill="#C0463A"/></g></g>' +
+    '<g class="float c"><g transform="translate(372 150) scale(.42)" opacity=".85"><use href="#bl" fill="#D9A441"/></g></g>' +
+    '<g class="float b"><g transform="translate(150 22) scale(.3)" opacity=".6"><use href="#bl" fill="#24406E"/></g></g>' +
+    '</svg><svg class="ridge" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 L40 22 L70 28 L110 12 L150 26 L190 18 L230 30 L270 14 L310 24 L350 16 L400 26 L400 46 L0 46Z"/></svg>';
+
+  function brand() { return '<div class="brand"><b>Dream Tour</b><span>travel</span></div>'; }
+
+  /* ---------- tourist: login ---------- */
+  function vLogin() {
+    var hasData = DATA && DATA.groups && DATA.groups.length;
+    return '<header class="sky">' + BALLOONS + '<div class="wrap">' +
+      '<div class="topline">' + brand() + '</div>' +
+      '<h1 class="hero-title">Ваш тур по Турции — в одном месте</h1>' +
+      '<p class="hero-sub">Маршрут по дням, ваш пакет и допы, прилёт и машина в аэропорт.</p>' +
+      '</div></header>' +
+      '<main class="wrap pagebody"><form class="card stack" id="loginForm" autocomplete="off">' +
+      '<label class="f" for="code">Код вашей группы<input class="input code" id="code" name="code" placeholder="Например, KAPPA-4821" autocapitalize="characters" spellcheck="false" required></label>' +
+      (S.err ? '<div class="err" role="alert">' + esc(S.err) + '</div>' : '') +
+      '<button class="btn" type="submit"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? 'Открываем…' : 'Открыть мой тур') + '</button>' +
+      '<p class="hint" style="margin:0">Код выдаёт ваш гид или менеджер Dream Tour. Гиды входят здесь же, по своему коду.</p>' +
+      (hasData || !S.loaded ? '' : '<p class="hint" style="margin:0">Сейчас нет открытых групп.</p>') +
+      '</form></main>' + vFoot();
+  }
+
+  function vFoot() {
+    return '<footer class="foot wrap">Dream Tour Travel · Анталья' +
+      ((S.canEdit || HOSTED || location.hash === '#admin') ? ' · <button class="link" data-act="adminLogin">Вход для администратора</button>' : '') + '</footer>';
+  }
+
+  async function doLogin(code) {
+    S.busy = true; S.err = ''; render();
+    await dataReady;
+    var p = await DT.unlockGroup(DATA, code).catch(function () { return null; });
+    S.busy = false;
+    if (!p) { S.err = 'Код не подошёл. Проверьте буквы и цифры или спросите гида.'; render(); return; }
+    store('dt.code', DT.normPass(code));
+    openPayload(p, false, code);
+  }
+
+  function openGroup(p, preview) {
+    S.payload = p; S.preview = !!preview; S.view = 'group'; S.tab = 'home';
+    var saved = preview ? null : load('dt.me.' + p.group.id);
+    S.meId = saved && p.group.tourists.some(function (t) { return t.id === saved; }) ? saved : null;
+    render(); window.scrollTo(0, 0);
+  }
+
+  /* ---------- tourist: group ---------- */
+  function me() { var P = S.payload; return P && S.meId ? P.group.tourists.find(function (t) { return t.id === S.meId; }) : null; }
+
+  function vGroup() {
+    var P = S.payload, T = P.tour, G = P.group, m = me();
+    var h = '';
+    if (S.preview) h += '<div class="previewbar"><div class="wrap"><span>Просмотр глазами туриста · ' + esc(G.name) + '</span><button class="btn sm" data-act="backAdmin">Вернуться в админку</button></div></div>';
+    h += '<header class="sky">' + BALLOONS + '<div class="wrap">' +
+      '<div class="topline">' + brand() + (S.preview ? '' : '<button class="link" data-act="logout">Выйти</button>') + '</div>' +
+      '<h1 class="hero-title" style="margin-top:40px">' + esc(T.title) + '</h1>' +
+      (T.subtitle ? '<p class="hero-sub">' + esc(T.subtitle) + '</p>' : '') +
+      '<div class="chips"><span class="chip">' + esc(G.name) + '</span><span class="chip num">' + esc(range(T.start, T.end)) + '</span><span class="chip">' + plural(G.tourists.length, 'турист', 'туриста', 'туристов') + '</span></div>' +
+      '</div></header>';
+    h += '<main class="wrap pagebody">';
+    if (!m) h += vWho();
+    else h += '<div class="hello"><h2>Здравствуйте, ' + esc(firstName(m.name)) + '</h2><button class="link" data-act="notMe">Это не я</button></div>';
+    h += '<nav class="tabs" aria-label="Разделы"><div class="seg" role="tablist">' +
+      tabBtn('home', 'Мой тур') + tabBtn('route', 'Маршрут') + tabBtn('transfer', 'Трансферы') + '</div></nav>';
+    h += '<div class="stack">' + (S.tab === 'route' ? vRoute() : S.tab === 'transfer' ? vTransfer() : vHome()) + '</div>';
+    h += '</main>' + vFoot();
+    return h;
+  }
+  function tabBtn(id, label) { return '<button class="tab" role="tab" data-tab="' + id + '" aria-selected="' + (S.tab === id) + '">' + label + '</button>'; }
+
+  function vWho() {
+    var G = S.payload.group;
+    return '<section class="card" aria-labelledby="whoH"><div class="eyebrow">Шаг 1</div><h2 id="whoH" style="font-size:24px;margin-top:4px">Найдите себя в списке группы</h2>' +
+      '<p class="hint" style="margin:6px 0 10px">Так мы покажем ваш пакет, прилёт и время машины в аэропорт.</p>' +
+      '<label class="sr" for="whoQ">Фамилия или имя</label><input class="input" id="whoQ" placeholder="Начните вводить фамилию латиницей" autocomplete="off">' +
+      '<div class="whos" id="whoList">' + whoItems('') + '</div></section>';
+  }
+  function whoItems(q) {
+    var G = S.payload.group, Q = q.trim().toUpperCase();
+    var list = G.tourists.filter(function (t) { return !Q || t.name.toUpperCase().indexOf(Q) >= 0; });
+    if (!list.length) return '<p class="hint" style="padding:12px 4px">Никого не нашли. Попробуйте другую часть фамилии.</p>';
+    return list.map(function (t) {
+      return '<button class="who" data-me="' + esc(t.id) + '"><span>' + esc(nice(t.name)) + '</span><small>' + (t.age ? plural(t.age, 'год', 'года', 'лет') : '') + '</small></button>';
+    }).join('');
+  }
+
+  function dayIndex() {
+    var T = S.payload.tour, t = todayISO();
+    if (!T.route || !T.route.length) return { state: 'none' };
+    if (t < T.route[0].date) return { state: 'before', days: diffDays(t, T.route[0].date) };
+    var i = T.route.findIndex(function (d) { return d.date === t; });
+    if (i >= 0) return { state: 'during', i: i };
+    if (T.end && t > T.end) return { state: 'after' };
+    return { state: 'during', i: Math.min(T.route.length - 1, Math.max(0, diffDays(T.route[0].date, t))) };
+  }
+
+  function vHome() {
+    var P = S.payload, T = P.tour, m = me(), h = '', di = dayIndex();
+    if (m && m.birthday && todayISO().slice(5) === m.birthday)
+      h += '<section class="card bday"><div class="eyebrow" style="color:#fff;opacity:.85">Сегодня ваш день</div><h3>С днём рождения, ' + esc(firstName(m.name)) + '!</h3><p style="margin:6px 0 0">Вся команда Dream Tour поздравляет вас. Пусть это путешествие запомнится надолго.</p></section>';
+    if (di.state === 'before') {
+      var d0 = T.route[0];
+      h += '<section class="card today"><div class="eyebrow">До начала тура</div><h3 class="num">' + plural(di.days, 'день', 'дня', 'дней') + '</h3><p>Первый день — ' + esc(dLong(d0.date)) + ', ' + esc(d0.place) + '. ' + esc(d0.title) + '.</p></section>';
+    } else if (di.state === 'during') {
+      var d = T.route[di.i];
+      h += '<section class="card today"><div class="row"><div class="eyebrow">Сегодня · ' + esc(dLong(d.date)) + '</div><span class="daycount num">День ' + (di.i + 1) + ' из ' + T.route.length + '</span></div>' +
+        '<h3>' + esc(d.title) + '</h3><div class="muted" style="font-weight:600;margin-top:2px">' + esc(d.place) + '</div>' + (d.text ? '<p>' + esc(d.text) + '</p>' : '') +
+        (T.route[di.i + 1] ? '<p class="hint" style="margin-top:12px">Завтра: ' + esc(T.route[di.i + 1].place) + ' · ' + esc(T.route[di.i + 1].title) + '</p>' : '') + '</section>';
+    } else if (di.state === 'after') {
+      h += '<section class="card today"><div class="eyebrow">Тур завершён</div><h3>Спасибо, что путешествовали с нами</h3><p>Будем рады вашему отзыву и новой встрече в Турции.</p></section>';
+    }
+    if (m) {
+      h += '<section class="card"><div class="eyebrow">Мой пакет</div><div class="pkg">' +
+        (m.pkg ? '<span class="tag gold">' + esc(m.pkg) + '</span>' : '<span class="tag">Пакет уточняет гид</span>') +
+        (m.extras || []).map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join('') + '</div>' +
+        (!(m.extras || []).length ? '<p class="hint" style="margin:10px 0 0">Дополнительные экскурсии появятся здесь, когда вы их выберете.</p>' : '') + '</section>';
+      if ((m.info || []).length) h += '<section class="card"><div class="eyebrow">Важно для вас</div><ul class="infos">' + m.info.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+      if (m.departure) h += '<section class="card"><div class="row"><div><div class="eyebrow">Машина в аэропорт</div><div style="font-family:var(--display);font-size:30px" class="num">' + esc(m.departure.pickup) + ' · ' + esc(dShort(m.departure.pickupDate)) + '</div></div><button class="btn ghost sm" data-tab="transfer">Подробнее</button></div></section>';
+    }
+    h += vContact();
+    return h;
+  }
+
+  function vContact() {
+    var P = S.payload, G = P.group, C = P.contact || {};
+    var phone = G.phone || C.phone, who = G.guide ? 'Ваш гид · ' + G.guide : 'Dream Tour на связи';
+    if (!phone && !G.guide) return '';
+    return '<section class="card"><div class="eyebrow">' + esc(who) + '</div>' +
+      (phone ? '<div class="row" style="margin-top:6px"><span class="phone num">' + esc(phone) + '</span><button class="btn ghost sm" data-copy="' + esc(phone) + '">Скопировать номер</button></div>' : '') + '</section>';
+  }
+
+  function vRoute() {
+    var T = S.payload.tour, t = todayISO();
+    if (!T.route || !T.route.length) return '<div class="card empty"><h3>Маршрут скоро появится</h3></div>';
+    return '<ol class="route">' + T.route.map(function (d, i) {
+      var p = dparts(d.date), cls = d.date < t ? 'past' : d.date === t ? 'now' : '';
+      return '<li class="' + cls + '"><div class="dnum"><span class="d num">' + p.d + '</span><span class="m">' + MON[p.m - 1] + ' · ' + wday(d.date) + '</span></div>' +
+        '<div class="body"><div class="eyebrow">День ' + (i + 1) + ' · ' + esc(d.place) + (cls === 'now' ? '<span class="badge">сегодня</span>' : '') + '</div><h3>' + esc(d.title) + '</h3>' + (d.text ? '<p>' + esc(d.text) + '</p>' : '') + '</div></li>';
+    }).join('') + '</ol>';
+  }
+
+  function vTransfer() {
+    var m = me();
+    if (!m) return '<div class="card empty"><h3>Сначала найдите себя в списке</h3><p class="hint">Тогда здесь появятся ваш прилёт и машина в аэропорт.</p></div>';
+    var h = '', d = m.departure;
+    if (d) {
+      var opts = DT.pickupOptions(S.payload.slots || [], d);
+      h += '<section class="card"><div class="eyebrow">Вылет · машина из отеля</div><div class="big"><span class="t num">' + esc(d.pickup || '—') + '</span><span style="padding-bottom:8px;font-weight:700">' + esc(dLong(d.pickupDate)) + ', ' + esc(wday(d.pickupDate)) + '</span></div>' +
+        '<dl class="kv"><div><dt>Машина</dt><dd>' + esc(d.vehicle || '—') + '</dd></div><div><dt>Рейс</dt><dd class="num">' + esc(d.flight || '—') + '</dd></div><div><dt>Вылет</dt><dd class="num">' + esc(d.time || '—') + (d.date !== d.pickupDate ? ' · ' + esc(dShort(d.date)) : '') + '</dd></div><div><dt>Терминал</dt><dd>' + esc(d.terminal || '—') + '</dd></div></dl>' +
+        '<p class="hint" style="margin:12px 0 0">Спуститесь в лобби за 10 минут до времени забора, с багажом и документами.</p></section>';
+      if (opts.length > 1) {
+        h += '<section class="card"><div class="eyebrow">Все машины в аэропорт ' + esc(dShort(d.pickupDate)) + '</div><p class="hint" style="margin:6px 0 0">Машины выезжают из отелей в фиксированное время. Пересесть на другую можно только после согласования с гидом.</p><div class="slots">' +
+          opts.map(function (o) {
+            var pill = o.mine ? '<span class="pill mine">Ваша машина</span>' : o.fits ? '<span class="pill ok">Подходит</span>' : '<span class="pill no">' + (o.lead != null && o.lead < 150 ? 'Поздно' : 'Рано') + '</span>';
+            return '<div class="slot' + (o.mine ? ' mine' : '') + '"><span class="st num">' + esc(o.pickup) + '</span><div><b>' + esc(o.vehicle || 'Трансфер') + '</b><small class="num">' + (o.lead != null ? 'за ' + leadText(o.lead) + ' до вашего рейса' : '') + '</small></div>' + pill + '</div>';
+          }).join('') + '</div></section>';
+      }
+    } else {
+      h += '<section class="card empty"><div class="eyebrow">Вылет</div><h3>Время машины в аэропорт появится здесь</h3><p class="hint">Мы добавим его, как только получим список вылетов, обычно за 1–2 дня до отъезда.</p></section>';
+    }
+    var a = m.arrival;
+    h += '<section class="card"><div class="eyebrow">Прилёт</div>' + (a ? (a.self ? '<p style="margin:6px 0 0;font-weight:600">' + esc(dLong(a.date)) + ' · добираетесь до отеля самостоятельно</p>' :
+      '<dl class="kv"><div><dt>Дата</dt><dd>' + esc(dShort(a.date)) + '</dd></div><div><dt>Рейс</dt><dd class="num">' + esc(a.flight || '—') + '</dd></div><div><dt>Время</dt><dd class="num">' + esc(a.time || '—') + '</dd></div><div><dt>Встреча</dt><dd>' + esc([a.terminal, a.vehicle].filter(Boolean).join(' · ') || '—') + '</dd></div></dl>')
+      : '<p class="hint" style="margin:6px 0 0">Данные о прилёте пока не загружены.</p>') + '</section>';
+    return h;
+  }
+
+  /* ---------- guide marks: вышел / не вышел ---------- */
+  var MK = { marks: {}, key: null, pending: [], timer: null, online: true };
+  function loadPending() { try { MK.pending = JSON.parse(load('dt.pending') || '[]'); } catch (e) { MK.pending = []; } }
+  function savePending() { store('dt.pending', MK.pending.length ? JSON.stringify(MK.pending) : null); }
+  function markOf(run, pax) {
+    var id = DT.markId(run, pax);
+    if (!HOSTED) return load('dt.mk.' + id) || '';
+    return (MK.marks[id] || {}).s || '';
+  }
+  function markInfo(run, pax) { return MK.marks[DT.markId(run, pax)] || null; }
+  function setMark(run, pax, s) {
+    var id = DT.markId(run, pax), t = new Date().toISOString();
+    if (!HOSTED) { store('dt.mk.' + id, s || null); render(); return; }
+    MK.marks[id] = { s: s || '', t: t, g: S.view === 'admin' ? 'office' : ((S.payload || {}).guide || {}).id };
+    MK.pending = MK.pending.filter(function (x) { return x.id !== id; });
+    MK.pending.push({ id: id, s: s || null, t: t });
+    savePending(); render(); flushMarks();
+  }
+  async function flushMarks() {
+    if (!HOSTED || !MK.key || !MK.pending.length || (S.view !== 'guide' && S.view !== 'admin')) return;
+    var items = MK.pending.slice();
+    try {
+      var r = await fetch('/api/marks', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key: MK.key, items: items }) });
+      if (!r.ok) throw new Error(r.status);
+      MK.pending = MK.pending.filter(function (x) { return items.indexOf(x) < 0; }); savePending(); MK.online = true;
+    } catch (e) { MK.online = false; }
+    renderSoft();
+  }
+  async function pullMarks() {
+    if (!HOSTED || !MK.key) return;
+    try {
+      var r = await fetch('/api/marks', { headers: { 'x-dt-key': MK.key }, cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status);
+      var m = (await r.json()).marks || {};
+      MK.pending.forEach(function (x) { if (x.s) m[x.id] = { s: x.s, t: x.t }; else delete m[x.id]; });
+      var changed = JSON.stringify(m) !== JSON.stringify(MK.marks);
+      MK.marks = m; MK.online = true;
+      if (changed) renderSoft();
+    } catch (e) { MK.online = false; }
+  }
+  function startMarks(key) {
+    MK.key = key; loadPending(); pullMarks(); flushMarks();
+    clearInterval(MK.timer);
+    MK.timer = setInterval(function () { if (!document.hidden) { flushMarks(); pullMarks(); } }, 20000);
+  }
+  function stopMarks() { clearInterval(MK.timer); MK.key = null; MK.marks = {}; }
+  function renderSoft() {
+    var ae = document.activeElement;
+    if (ae && /INPUT|TEXTAREA|SELECT/.test(ae.tagName) && ae.id !== 'code') { S.renderLater = true; return; }
+    render();
+  }
+  function markChip(run, pax) {
+    var s = markOf(run, pax);
+    return s === 'out' ? '<span class="mk out">вышел</span>' : s === 'no' ? '<span class="mk no">не вышел</span>' : '';
+  }
+  function markCount(r, pred) {
+    var o = 0, n = 0;
+    r.pax.forEach(function (p) { if (pred && !pred(p)) return; var s = markOf(r.key, p.key); if (s === 'out') o++; else if (s === 'no') n++; });
+    return { out: o, no: n };
+  }
+  function hhmm(iso) { var d = new Date(iso); return isNaN(d) ? '' : ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+
+  /* ---------- guide cabinet ---------- */
+  function uniq(a) { return a.filter(function (x, i) { return x && a.indexOf(x) === i; }).sort(); }
+  function pickDay(dates) {
+    var d = uniq(dates), t = todayISO();
+    if (!d.length) return t;
+    if (d.indexOf(t) >= 0) return t;
+    return d.find(function (x) { return x >= t; }) || d[d.length - 1];
+  }
+  function openGuide(p, preview) {
+    S.payload = p; S.preview = !!preview; S.view = 'guide'; S.gtab = 'runs'; S.gq = '';
+    S.gday = pickDay(p.runs.map(function (r) { return r.date; }));
+    render(); window.scrollTo(0, 0);
+  }
+
+  function vGuide() {
+    var P = S.payload, G = P.guide, h = '';
+    var dayRuns = P.runs.filter(function (r) { return r.date === S.gday; });
+    if (S.preview) h += '<div class="previewbar"><div class="wrap"><span>Кабинет гида · ' + esc(G.name) + '</span><button class="btn sm" data-act="backAdmin">Вернуться в админку</button></div></div>';
+    h += '<header class="sky">' + BALLOONS + '<div class="wrap"><div class="topline">' + brand() + (S.preview ? '' : '<button class="link" data-act="logout">Выйти</button>') + '</div>' +
+      '<h1 class="hero-title" style="margin-top:40px">Здравствуйте, ' + esc(firstName(G.name)) + '</h1><p class="hero-sub">Кабинет гида Dream Tour</p>' +
+      '<div class="chips"><span class="chip num">' + esc(dLong(S.gday)) + '</span><span class="chip">' + plural(dayRuns.length, 'трансфер', 'трансфера', 'трансферов') + '</span><span class="chip">' + plural(P.groups.length, 'группа', 'группы', 'групп') + '</span></div></div></header>';
+    h += '<main class="wrap pagebody"><nav class="tabs" aria-label="Разделы"><div class="seg two" role="tablist">' +
+      '<button class="tab" role="tab" data-gtab="runs" aria-selected="' + (S.gtab === 'runs') + '">Трансферы</button>' +
+      '<button class="tab" role="tab" data-gtab="groups" aria-selected="' + (S.gtab === 'groups') + '">Мои группы</button></div></nav><div class="stack">';
+    if (S.gtab === 'groups') h += vGuideGroups();
+    else {
+      var days = uniq(P.runs.map(function (r) { return r.date; }));
+      if (days.length) h += '<div class="days">' + days.map(function (d) { return '<button class="day" data-gday="' + d + '" aria-pressed="' + (d === S.gday) + '"><b class="num">' + dparts(d).d + '</b>' + MON[dparts(d).m - 1] + '</button>'; }).join('') + '</div>';
+      h += dayRuns.length ? dayRuns.map(guideRun).join('') : '<div class="card empty"><h3>На этот день трансферов нет</h3><p class="hint">Как только диспетчер назначит вас на машину, она появится здесь.</p></div>';
+      if (dayRuns.length) h += '<p class="hint syncnote' + (HOSTED && MK.pending.length && !S.preview ? ' off' : '') + '" style="text-align:center">' + esc(syncNote()) + '</p>';
+    }
+    return h + '</div></main>' + vFoot();
+  }
+
+  function guideRun(r) {
+    var c = markCount(r), arr = r.kind === 'arr', total = r.pax.length;
+    return '<section class="card grun"><div class="row"><div><span class="kind ' + r.kind + '">' + (arr ? 'Прилёт · встреча в аэропорту' : 'Вылет · забор из отеля') + '</span>' +
+      '<div class="big"><span class="t num">' + esc(r.time || '—') + '</span></div></div><div class="donecnt num' + (c.out + c.no === total ? ' all' : '') + '">' + (c.out + c.no) + '/' + total + '</div></div>' +
+      '<div class="fls">' + r.flights.map(function (f) { return '<span class="chip"><b>' + esc(f.flight) + '</b>' + (f.time ? ' ' + esc(f.time) : '') + (f.terminal ? ' · ' + esc(f.terminal) : '') + '</span>'; }).join('') + '</div>' +
+      '<dl class="kv"><div><dt>Машина</dt><dd>' + esc([r.vehicle, r.plate].filter(Boolean).join(' · ') || '—') + '</dd></div><div><dt>Водитель</dt><dd>' + esc(r.driver || '—') + '</dd></div>' +
+      (r.driverPhone ? '<div><dt>Телефон</dt><dd><button class="linkbtn" data-copy="' + esc(r.driverPhone) + '">' + esc(r.driverPhone) + '</button></dd></div>' : '') + '</dl>' +
+      (r.note ? '<p class="infos" style="margin-top:10px"><span style="display:block;padding:10px 12px;border-radius:12px;background:var(--warn-soft)">' + esc(r.note) + '</span></p>' : '') +
+      '<div class="mtally"><span class="ok">Вышли: ' + c.out + '</span><span class="bad">Не вышли: ' + c.no + '</span><span>Ждём: ' + (total - c.out - c.no) + '</span></div>' +
+      '<ul class="plist">' + r.pax.map(function (p) {
+        var s = markOf(r.key, p.key), k = esc(r.key) + '|' + esc(p.key);
+        return '<li class="' + (s ? 'm-' + s : '') + '"><span class="pn">' + esc(nice(p.name)) + (p.age ? ' <small>' + plural(p.age, 'год', 'года', 'лет') + '</small>' : '') + (p.group ? '<small class="g">' + esc(p.group) + '</small>' : '') + '</span>' +
+          '<span class="mbtns"><button class="mb out" data-mk="' + k + '|out" aria-pressed="' + (s === 'out') + '"' + (S.preview ? ' disabled' : '') + '>Вышел</button>' +
+          '<button class="mb no" data-mk="' + k + '|no" aria-pressed="' + (s === 'no') + '"' + (S.preview ? ' disabled' : '') + '>Не вышел</button></span></li>';
+      }).join('') + '</ul></section>';
+  }
+
+  function syncNote() {
+    if (S.preview) return 'Просмотр: отмечать может только сам гид.';
+    if (!HOSTED) return 'Отметки сохраняются на этом телефоне.';
+    if (MK.pending.length) return 'Нет связи. Отметок в очереди: ' + MK.pending.length + '. Отправятся сами, когда появится интернет.';
+    return 'Отметки сразу видит диспетчер.';
+  }
+
+  function vGuideGroups() {
+    var P = S.payload;
+    if (!P.groups.length) return '<div class="card empty"><h3>Групп пока нет</h3><p class="hint">Когда вас назначат гидом группы, её список появится здесь.</p></div>';
+    var Q = (S.gq || '').toUpperCase();
+    return '<input class="input" id="gq" placeholder="Поиск туриста по фамилии" value="' + esc(S.gq || '') + '" aria-label="Поиск туриста">' +
+      P.groups.map(function (g) {
+        var list = g.tourists.filter(function (t) { return !Q || t.name.toUpperCase().indexOf(Q) >= 0; });
+        var bd = g.tourists.filter(function (t) { return t.birthday; });
+        return '<section class="card"><div class="eyebrow">' + esc(g.tour) + ' · ' + esc(range(g.start, g.end)) + '</div><h2 style="font-size:26px;margin-top:4px">' + esc(g.name) + ' <span class="muted num" style="font-size:18px">' + g.tourists.length + '</span></h2>' +
+          (bd.length ? '<p class="hint" style="margin:6px 0 0">Дни рождения: ' + bd.map(function (t) { return esc(nice(t.name)) + ' — ' + esc(t.birthday.split('-').reverse().join('.')); }).join(', ') + '</p>' : '') +
+          '<div class="tlist">' + list.map(function (t) {
+            return '<div class="trow"><div class="row"><b>' + esc(nice(t.name)) + (t.age ? ' <small class="muted">' + plural(t.age, 'год', 'года', 'лет') + '</small>' : '') + '</b>' +
+              (t.pkg ? '<span class="tag gold">' + esc(t.pkg) + '</span>' : '') + '</div>' +
+              ((t.extras || []).length ? '<div class="pkg" style="margin-top:6px">' + t.extras.map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join('') + '</div>' : '') +
+              ((t.info || []).length ? '<ul class="infos">' + t.info.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
+              (t.note ? '<p class="snote"><span class="private">служебно</span> ' + esc(t.note) + '</p>' : '') + '</div>';
+          }).join('') + (list.length ? '' : '<p class="hint">Никого не нашли.</p>') + '</div></section>';
+      }).join('');
+  }
+
+  /* ---------- admin: login ---------- */
+  function vAdminLogin() {
+    return '<header class="sky">' + BALLOONS + '<div class="wrap"><div class="topline">' + brand() + '<button class="link" data-act="toLogin">К входу туристов</button></div>' +
+      '<h1 class="hero-title">Операционный центр</h1><p class="hero-sub">Прилёты, вылеты, машины, гиды и группы.</p></div></header>' +
+      '<main class="wrap pagebody"><form class="card stack" id="adminForm" autocomplete="off">' +
+      '<label class="f" for="apass">Пароль администратора<input class="input" type="password" id="apass" required></label>' +
+      (S.err ? '<div class="err" role="alert">' + esc(S.err) + '</div>' : '') +
+      '<button class="btn" type="submit"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? 'Проверяем…' : 'Войти') + '</button></form></main>';
+  }
+
+  function tour() { return S.admin.tours[S.tourIdx]; }
+  function guides() { return S.admin.guides || (S.admin.guides = []); }
+  function guideName(id) { var g = DT.guideById(S.admin, id); return g ? g.name : ''; }
+  function guideOptions(sel) {
+    return '<option value="">— не назначен —</option>' + guides().map(function (g) { return '<option value="' + esc(g.id) + '"' + (g.id === sel ? ' selected' : '') + '>' + esc(g.name) + '</option>'; }).join('');
+  }
+
+  /* ---------- admin: console ---------- */
+  var ATABS = [['arr', 'Прилёты'], ['dep', 'Вылеты'], ['veh', 'Машины'], ['kapak', 'КАПАК'], ['guides', 'Гиды'], ['groups', 'Группы и туристы'], ['check', 'Проверка'], ['upload', 'Загрузка']];
+
+  function vAdmin() {
+    var R = DT.runs(S.admin);
+    var days = uniq(R.runs.map(function (r) { return r.date; }).concat(R.selfs.map(function (s) { return s.date; })));
+    if (!S.day || days.indexOf(S.day) < 0) S.day = pickDay(days);
+    var issues = checks(R), dayTabs = S.atab === 'arr' || S.atab === 'dep' || S.atab === 'veh' || S.atab === 'kapak';
+    var cnt = { veh: R.runs.filter(function (r) { return r.date === S.day && !r.a.guideId; }).length, arr: arrFlights(R).length, dep: R.runs.filter(function (r) { return r.kind === 'dep' && r.date === S.day; }).length };
+    var h = '<div class="atop"><div class="wrap wide"><div class="abar"><div class="brand"><b style="font-size:22px">Dream Tour</b><span>ops</span></div>' +
+      (dayTabs && days.length ? '<div class="daysel" role="group" aria-label="День">' + days.map(function (d) { return '<button data-day="' + d + '" aria-pressed="' + (d === S.day) + '" class="num">' + dShort(d) + '</button>'; }).join('') + '</div>' : '') +
+      '<div class="row aright">' + (S.dirty ? '<span class="dirty">Не опубликовано</span>' : '<span class="hint">Всё опубликовано</span>') +
+      '<button class="btn gold sm" data-act="publish"' + (S.busy ? ' disabled' : '') + '>' + (S.busy ? 'Публикуем…' : 'Опубликовать') + '</button>' +
+      '<button class="btn ghost sm" data-act="adminOut">Выйти</button></div></div>' +
+      '<nav class="atabs" role="tablist">' + ATABS.map(function (t) {
+        var c = t[0] === 'check' ? issues.filter(function (i) { return i.sev !== 'info'; }).length : cnt[t[0]];
+        return '<button class="atab" role="tab" data-atab="' + t[0] + '" aria-selected="' + (S.atab === t[0]) + '">' + t[1] + (c ? '<span class="cnt' + (t[0] === 'check' || t[0] === 'veh' ? ' bad' : '') + '"' + (t[0] === 'veh' ? ' title="Машин без гида"' : '') + '>' + c + '</span>' : '') + '</button>';
+      }).join('') + '</nav></div></div>';
+    h += '<main class="wrap wide apage">';
+    if (S.msg) h += '<div class="msg' + (S.msg.bad ? ' bad' : '') + '" role="status">' + esc(S.msg.text) + '</div>';
+    if (S.atab === 'arr') h += vArrBoard(R);
+    else if (S.atab === 'dep') h += vDepTable(R);
+    else if (S.atab === 'veh') h += vVeh(R);
+    else if (S.atab === 'kapak') h += vKapak(R);
+    else if (S.atab === 'guides') h += vGuides(R);
+    else if (S.atab === 'check') h += vChecks(issues);
+    else if (S.atab === 'upload') h += vUpload();
+    else h += vGroupsAdmin();
+    return h + '</main>' + vGuest(R);
+  }
+
+  function marksStat(runs) {
+    var o = 0, n = 0, t = 0;
+    runs.forEach(function (r) { var c = markCount(r); o += c.out; n += c.no; t += r.pax.length; });
+    return stat('Встречено', o + '/' + t, n ? 'не вышли: ' + n : HOSTED ? 'обновляются сами' : 'видны в версии на сайте', n ? 'bad' : '');
+  }
+  function stat(k, v, s, cls) { return '<div class="stat' + (cls ? ' ' + cls : '') + '"><div class="k">' + k + '</div><div class="v num">' + v + '</div>' + (s ? '<div class="s">' + s + '</div>' : '') + '</div>'; }
+
+  function vRuns(R, kind) {
+    var list = R.runs.filter(function (r) { return r.kind === kind && r.date === S.day; });
+    var Q = (S.aq || '').toUpperCase().trim();
+    if (S.fg) list = list.filter(function (r) { return S.fg === '-' ? !r.a.guideId : r.a.guideId === S.fg; });
+    if (Q) list = list.filter(function (r) { return r.flights.some(function (f) { return f.flight.toUpperCase().indexOf(Q) >= 0; }) || r.pax.some(function (p) { return p.name.toUpperCase().indexOf(Q) >= 0; }); });
+    var all = R.runs.filter(function (r) { return r.kind === kind && r.date === S.day; });
+    var pax = all.reduce(function (s, r) { return s + r.pax.length; }, 0);
+    var noG = all.filter(function (r) { return !r.a.guideId; }).length, noP = all.filter(function (r) { return !r.a.plate; }).length;
+    var fl = uniq([].concat.apply([], all.map(function (r) { return r.flights.map(function (f) { return f.flight; }); }))).length;
+    var h = '<div class="summary">' + stat(kind === 'arr' ? 'Прилётов' : 'Выездов', all.length, plural(fl, 'рейс', 'рейса', 'рейсов')) + stat('Туристов', pax) +
+      stat('Без гида', noG, noG ? 'назначьте ниже' : 'все назначены', noG ? 'bad' : 'good') + stat('Без номера машины', noP, '', noP ? 'warn' : 'good');
+    if (kind === 'arr') { var sf = R.selfs.filter(function (s) { return s.date === S.day; }).reduce(function (n, s) { return n + s.pax.length; }, 0); h += stat('Сами до отеля', sf); }
+    h += '</div><div class="filters"><input class="input" id="aq" placeholder="Поиск: рейс или фамилия" value="' + esc(S.aq || '') + '" aria-label="Поиск">' +
+      '<select class="input" id="fg" aria-label="Гид"><option value="">Все гиды</option><option value="-"' + (S.fg === '-' ? ' selected' : '') + '>Без гида</option>' + guides().map(function (g) { return '<option value="' + esc(g.id) + '"' + (S.fg === g.id ? ' selected' : '') + '>' + esc(g.name) + '</option>'; }).join('') + '</select></div>';
+    if (!guides().length) h += '<p class="hint">Гидов пока нет. Добавьте их во вкладке «Гиды», и здесь можно будет назначать их на машины.</p>';
+    h += '<div class="board">' + (list.length ? list.map(runCard).join('') : '<div class="panel empty"><h3>' + (all.length ? 'Ничего не нашли' : 'На этот день ' + (kind === 'arr' ? 'прилётов' : 'вылетов') + ' нет') + '</h3></div>') + '</div>';
+    if (kind === 'arr') {
+      var sl = R.selfs.filter(function (s) { return s.date === S.day; });
+      if (sl.length) h += '<h2 class="ah">Добираются до отеля сами</h2><div class="panel">' + sl.map(function (s) { return s.pax.map(function (p) { return esc(nice(p.name)) + (p.group ? ' <small class="muted">' + esc(p.group) + '</small>' : ''); }).join(', '); }).join('<br>') + '</div>';
+    }
+    return h;
+  }
+
+  function runCard(r) {
+    var a = r.a, k = esc(r.key), dep = r.kind === 'dep';
+    return '<article class="run' + (a.guideId ? '' : ' nog') + '"><div class="rt"><span class="tt num">' + esc(r.time || '—') + '</span><span class="rk">' + (dep ? 'забор из отеля' : 'прилёт') + '</span>' +
+      '<span class="veh">' + esc(r.vehicle || 'Машина') + '</span><span class="rk num">' + plural(r.pax.length, 'турист', 'туриста', 'туристов') + '</span></div>' +
+      '<div class="rm"><div class="fls">' + r.flights.map(function (f) { return '<span class="chip"><b>' + esc(f.flight) + '</b>' + (f.time ? ' ' + esc(f.time) : '') + (dep && f.date && f.date !== r.date ? ' (' + esc(dShort(f.date)) + ')' : '') + (f.terminal ? ' · ' + esc(f.terminal) : '') + '</span>'; }).join('') +
+      (a.guideId ? '' : '<span class="chip bad">нет гида</span>') + '</div>' +
+      '<ul class="names">' + r.pax.map(function (p) { return '<li>' + esc(nice(p.name)) + (p.age ? ' <small>' + p.age + '</small>' : '') + (p.group ? ' <em>' + esc(p.group.replace('Группа', 'Гр.')) + '</em>' : '') + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="rs"><label>Гид<select class="input" data-a="' + k + '|guideId">' + guideOptions(a.guideId) + '</select></label>' +
+      '<label>Номер машины<input class="input mono" data-a="' + k + '|plate" value="' + esc(a.plate || '') + '" placeholder="07 ABC 123"></label>' +
+      '<div class="two"><label>Водитель<input class="input" data-a="' + k + '|driver" value="' + esc(a.driver || '') + '" placeholder="Имя"></label>' +
+      '<label>Телефон<input class="input mono" data-a="' + k + '|driverPhone" value="' + esc(a.driverPhone || '') + '" placeholder="+90…"></label></div>' +
+      '<label>Заметка для гида<input class="input" data-a="' + k + '|note" value="' + esc(a.note || '') + '" placeholder="Например, табличка Dream Tour у выхода 2"></label></div></article>';
+  }
+
+  /* ---------- arrivals board (read-only) ---------- */
+  function nowMin() { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+  function flightStatus(date, time) {
+    var t = todayISO();
+    if (date < t) return ['land', 'Прилетел'];
+    if (date > t) return ['sched', 'Ожидается'];
+    var m = DT.minutes(time), n = nowMin();
+    if (m == null) return ['sched', 'Время не указано'];
+    if (n >= m + 20) return ['land', 'Сел по расписанию'];
+    if (n >= m - 60) return ['air', 'Скоро посадка'];
+    return ['sched', 'По расписанию'];
+  }
+  function runLabel(r) { return [r.vehicle || 'Машина', r.a.plate].filter(Boolean).join(' · '); }
+  function arrFlights(R) {
+    var map = {}, list = [];
+    R.runs.filter(function (r) { return r.kind === 'arr' && r.date === S.day; }).forEach(function (r) {
+      r.pax.forEach(function (p) {
+        var k = (p.flight || '?') + '|' + (p.time || '');
+        if (!map[k]) { map[k] = { k: k, flight: p.flight || 'Рейс не указан', time: p.time || r.time, terminal: p.terminal || '', rows: {}, pax: [], runs: [] }; list.push(map[k]); }
+        var f = map[k];
+        f.pax.push({ p: p, r: r });
+        if (f.runs.indexOf(r) < 0) f.runs.push(r);
+        var gk = (p.group || '—') + '|' + r.key;
+        (f.rows[gk] = f.rows[gk] || { group: p.group || 'Без группы', r: r, n: 0 }).n++;
+      });
+    });
+    return list.sort(function (a, b) { return (a.time || '').localeCompare(b.time || ''); });
+  }
+  function guestBtn(p, r) {
+    var s = markOf(r.key, p.key), k = esc(r.key) + '|' + esc(p.key);
+    return '<li class="gl' + (s ? ' m-' + s : '') + '"><button class="guest" data-guest="' + esc(p.key) + '"><span class="gn">' + esc(nice(p.name)) + (p.age ? ' <small>' + plural(p.age, 'год', 'года', 'лет') + '</small>' : '') + '</span>' +
+      (p.group ? '<em>' + esc(p.group) + '</em>' : '') + '<span class="gv">' + esc(runLabel(r)) + '</span><span class="gg">' + esc(guideName(r.a.guideId) || 'гид не назначен') + '</span></button>' +
+      '<span class="mbtns sm"><button class="mb out" data-mk="' + k + '|out" aria-pressed="' + (s === 'out') + '" title="Вышел">Вышел</button><button class="mb no" data-mk="' + k + '|no" aria-pressed="' + (s === 'no') + '" title="Не вышел">Не вышел</button></span></li>';
+  }
+  function boardFilters(groups) {
+    return '<div class="filters"><input class="input" id="aq" placeholder="Поиск: рейс, гид, фамилия гостя" value="' + esc(S.aq || '') + '" aria-label="Поиск">' +
+      '<select class="input" id="fgr" aria-label="Группа"><option value="">Все группы</option>' + groups.map(function (g) { return '<option' + (S.fgr === g ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('') + '</select>' +
+      '<select class="input" id="fg" aria-label="Гид"><option value="">Все гиды</option><option value="-"' + (S.fg === '-' ? ' selected' : '') + '>Без гида</option>' + guides().map(function (g) { return '<option value="' + esc(g.id) + '"' + (S.fg === g.id ? ' selected' : '') + '>' + esc(g.name) + '</option>'; }).join('') + '</select></div>';
+  }
+  function paxPass(p, r) {
+    var Q = (S.aq || '').toUpperCase().trim();
+    if (S.fgr && p.group !== S.fgr) return false;
+    if (S.fg && (S.fg === '-' ? !!r.a.guideId : r.a.guideId !== S.fg)) return false;
+    if (!Q) return true;
+    return p.name.toUpperCase().indexOf(Q) >= 0 || (p.flight || '').toUpperCase().replace(/[\s-]/g, '').indexOf(Q.replace(/[\s-]/g, '')) >= 0 || guideName(r.a.guideId).toUpperCase().indexOf(Q) >= 0;
+  }
+  function dayGroups(R, kind) { return uniq([].concat.apply([], R.runs.filter(function (r) { return r.kind === kind && r.date === S.day; }).map(function (r) { return r.pax.map(function (p) { return p.group; }); }))); }
+
+  function vArrBoard(R) {
+    var fl = arrFlights(R), Q = (S.aq || '').trim();
+    var runsDay = R.runs.filter(function (r) { return r.kind === 'arr' && r.date === S.day; });
+    var pax = fl.reduce(function (s, f) { return s + f.pax.length; }, 0);
+    var landed = fl.filter(function (f) { return flightStatus(S.day, f.time)[0] === 'land'; });
+    var noG = runsDay.filter(function (r) { return !r.a.guideId; }).length;
+    var sf = R.selfs.filter(function (s) { return s.date === S.day; }).reduce(function (n, s) { return n + s.pax.length; }, 0);
+    var h = '<div class="summary">' + stat('Прилёты', fl.length, plural(pax, 'гость', 'гостя', 'гостей') + ' из аэропорта') +
+      stat('Сели', landed.length, landed.reduce(function (s, f) { return s + f.pax.length; }, 0) + ' гостей прилетело') +
+      stat('Машин', runsDay.length, 'на прилёты') + stat('Без гида', noG, noG ? 'назначьте во вкладке «Машины»' : 'все машины с гидом', noG ? 'bad' : 'good') +
+      stat('Сами до отеля', sf, 'без трансфера') + marksStat(runsDay) + '</div>';
+    h += boardFilters(dayGroups(R, 'arr'));
+    var html = '', nowPlaced = S.day !== todayISO(), n = nowMin();
+    fl.forEach(function (f) {
+      var shown = f.pax.filter(function (x) { return paxPass(x.p, x.r); });
+      if (!shown.length) return;
+      if (!nowPlaced && DT.minutes(f.time) > n) { html += '<div class="nowline">СЕЙЧАС ' + ('0' + Math.floor(n / 60)).slice(-2) + ':' + ('0' + n % 60).slice(-2) + '</div>'; nowPlaced = true; }
+      var fo = 0, fn = 0;
+      f.pax.forEach(function (x) { var ms = markOf(x.r.key, x.p.key); if (ms === 'out') fo++; else if (ms === 'no') fn++; });
+      var done = f.pax.length && fo + fn === f.pax.length;
+      if (done && !S.open['x' + f.k] && !Q) {
+        html += '<button class="flight done" data-fx="x' + esc(f.k) + '" aria-expanded="false"><span class="sch num">' + esc(f.time || '—') + '</span><span class="fl-code">' + esc(f.flight) + '</span>' +
+          '<span class="okt">Встречено ' + fo + '/' + f.pax.length + '</span>' + (fn ? '<span class="badt">не вышли ' + fn + '</span>' : '') +
+          '<span class="hint">' + esc(f.runs.map(runLabel).join(', ')) + '</span><span class="more">Раскрыть</span></button>';
+        return;
+      }
+      var st = flightStatus(S.day, f.time), open = S.open[f.k] || (Q && shown.length < f.pax.length) || (Q && shown.some(function (x) { return x.p.name.toUpperCase().indexOf(Q.toUpperCase()) >= 0; }));
+      var rows = Object.keys(f.rows).map(function (k) { return f.rows[k]; }).filter(function (row) { return shown.some(function (x) { return x.r === row.r && (x.p.group || 'Без группы') === row.group; }); });
+      html += '<article class="flight' + (done ? ' wasdone' : '') + '"><div class="ftime"><span class="sch num">' + esc(f.time || '—') + '</span><span class="hint">посадка</span>' + (done ? '<button class="gtoggle" data-fx="x' + esc(f.k) + '" style="margin-top:8px">Свернуть</button>' : '') + '</div>' +
+        '<div class="fmid"><div class="fl-head"><span class="fl-code">' + esc(f.flight) + '</span>' + (f.terminal ? '<span class="chip">' + esc(f.terminal) + '</span>' : '') + '</div>' +
+        rows.map(function (row) {
+          var mc = markCount(row.r, function (p) { return (p.group || 'Без группы') === row.group; });
+          return '<div class="grp"><span class="h"><b>' + esc(row.group) + '</b>' + (mc.out || mc.no ? ' <span class="met">вышли ' + mc.out + '/' + row.n + (mc.no ? ' · не вышли ' + mc.no : '') + '</span>' : '') + '</span><span class="chip">' + esc(runLabel(row.r)) + '</span><span class="gd' + (row.r.a.guideId ? '' : ' no') + '">' + esc(guideName(row.r.a.guideId) || 'гид не назначен') + '</span><span class="px num">' + row.n + ' чел</span></div>';
+        }).join('') +
+        '<button class="gtoggle" data-fx="' + esc(f.k) + '" aria-expanded="' + !!open + '">' + (open ? 'Скрыть гостей' : 'Гости · ' + shown.length) + '</button>' +
+        (open ? '<ul class="guests">' + shown.map(function (x) { return guestBtn(x.p, x.r); }).join('') + '</ul>' : '') + '</div>' +
+        '<div class="fside"><span class="status ' + st[0] + '"><span class="dot"></span>' + st[1] + '</span>' +
+        f.runs.map(function (r) { var a = r.a; return '<div class="veh">' + esc(runLabel(r)) + '<small>' + esc(guideName(a.guideId) || 'гид не назначен') + (a.driver || a.driverPhone ? ' · водитель ' + esc([a.driver, a.driverPhone].filter(Boolean).join(' ')) : '') + '</small></div>'; }).join('') + '</div></article>';
+    });
+    if (!nowPlaced && fl.length) html += '<div class="nowline">СЕЙЧАС ' + ('0' + Math.floor(n / 60)).slice(-2) + ':' + ('0' + n % 60).slice(-2) + '</div>';
+    h += '<div class="board">' + (html || '<div class="panel empty"><h3>' + (fl.length ? 'Ничего не нашли' : 'На этот день прилётов нет') + '</h3></div>') + '</div>';
+    var sl = R.selfs.filter(function (s) { return s.date === S.day; });
+    if (sl.length) h += '<h2 class="ah">Добираются до отеля сами</h2><div class="panel"><ul class="guests flat">' + sl.map(function (s) { return s.pax.map(function (p) { return '<li><button class="guest" data-guest="' + esc(p.key) + '"><span class="gn">' + esc(nice(p.name)) + '</span>' + (p.group ? '<em>' + esc(p.group) + '</em>' : '') + '</button></li>'; }).join(''); }).join('') + '</ul></div>';
+    return h;
+  }
+
+  /* ---------- departures table (read-only) ---------- */
+  function vDepTable(R) {
+    var list = R.runs.filter(function (r) { return r.kind === 'dep' && r.date === S.day; });
+    var t = todayISO(), n = nowMin(), isToday = S.day === t;
+    var pax = list.reduce(function (s, r) { return s + r.pax.length; }, 0);
+    var gone = isToday ? list.filter(function (r) { return DT.minutes(r.time) < n; }) : S.day < t ? list : [];
+    var next = isToday ? list.find(function (r) { return DT.minutes(r.time) >= n; }) : null;
+    var h = '<div class="summary">' + stat('Гостей на вылет', pax, 'трансферы из отелей') + stat('Уже выехали', gone.reduce(function (s, r) { return s + r.pax.length; }, 0), 'из отелей') +
+      stat('Следующий выезд', next ? next.time : '—', next ? runLabel(next) + ' · ' + plural(next.pax.length, 'гость', 'гостя', 'гостей') : isToday ? 'на сегодня всё' : '') + stat('Машин', list.length, 'на вылеты') + marksStat(list) + '</div>';
+    h += boardFilters(dayGroups(R, 'dep'));
+    var rows = list.filter(function (r) { return r.pax.some(function (p) { return paxPass(p, r); }); });
+    h += '<div class="tblwrap card0"><table class="tbl dept"><thead><tr><th>Выезд</th><th>Чел</th><th>Рейс</th><th>Вылет</th><th>Терминал</th><th>Машина</th><th>Гид</th><th>Гости</th></tr></thead><tbody>' +
+      (rows.length ? rows.map(function (r) {
+        var m = DT.minutes(r.time), cls = isToday ? (m < n ? 'past' : m - n <= 60 ? 'soon' : '') : S.day < t ? 'past' : '';
+        var open = S.open[r.key] || ((S.aq || '').trim() && r.pax.some(function (p) { return p.name.toUpperCase().indexOf(S.aq.trim().toUpperCase()) >= 0; }));
+        var shown = r.pax.filter(function (p) { return paxPass(p, r); });
+        return '<tr class="' + cls + '"><td class="t num">' + esc(r.time) + '</td><td class="num">' + r.pax.length + '</td>' +
+          '<td class="nw">' + r.flights.map(function (f) { return '<b>' + esc(f.flight) + '</b>'; }).join('<br>') + '</td>' +
+          '<td class="nw num">' + r.flights.map(function (f) { return esc(f.time) + (f.date && f.date !== r.date ? ' <span class="hint">' + esc(dShort(f.date)) + '</span>' : ''); }).join('<br>') + '</td>' +
+          '<td>' + esc(uniq(r.flights.map(function (f) { return f.terminal; })).join(', ') || '—') + '</td>' +
+          '<td class="nw">' + esc(r.vehicle) + (r.a.plate ? '<div class="hint mono">' + esc(r.a.plate) + '</div>' : '') + '</td>' +
+          '<td class="nw">' + (r.a.guideId ? esc(guideName(r.a.guideId)) : '<span class="badt">не назначен</span>') + '</td>' +
+          '<td><button class="gtoggle" data-fx="' + esc(r.key) + '" aria-expanded="' + !!open + '">' + (open ? 'Скрыть' : 'Гости · ' + shown.length) + '</button>' + (function () { var mc = markCount(r); return mc.out || mc.no ? ' <span class="met">вышли ' + mc.out + '/' + r.pax.length + (mc.no ? ' · <span class="badt">не вышли ' + mc.no + '</span>' : '') + '</span>' : ''; })() +
+          (open ? '<ul class="guests">' + shown.map(function (p) { return guestBtn(p, r); }).join('') + '</ul>' : '') + '</td></tr>';
+      }).join('') : '<tr><td colspan="8" class="hint">' + (list.length ? 'Ничего не нашли.' : 'На этот день вылетов нет.') + '</td></tr>') + '</tbody></table></div>';
+    return h;
+  }
+
+  /* ---------- vehicles: where guides, plates and drivers are set ---------- */
+  function vVeh(R) {
+    var list = R.runs.filter(function (r) { return r.date === S.day; });
+    var noG = list.filter(function (r) { return !r.a.guideId; }).length;
+    var h = '<p class="hint">Здесь ставятся машины на день: гид, номер, водитель и телефон. Прилёты и вылеты только показывают эту информацию.</p>' +
+      '<div class="summary">' + stat('Машин на день', list.length) + stat('Без гида', noG, '', noG ? 'bad' : 'good') + stat('Без номера', list.filter(function (r) { return !r.a.plate; }).length, '', list.some(function (r) { return !r.a.plate; }) ? 'warn' : 'good') + '</div>';
+    if (!guides().length) h += '<p class="hint">Гидов пока нет. Добавьте их во вкладке «Гиды».</p>';
+    [['arr', 'Прилёты'], ['dep', 'Вылеты · забор из отеля']].forEach(function (k) {
+      var l = list.filter(function (r) { return r.kind === k[0]; });
+      if (l.length) h += '<h2 class="ah">' + k[1] + '</h2><div class="board">' + l.map(runCard).join('') + '</div>';
+    });
+    if (!list.length) h += '<div class="panel empty"><h3>На этот день машин нет</h3></div>';
+    return h;
+  }
+
+  /* ---------- guest card ---------- */
+  function vGuest(R) {
+    if (!S.guest) return '';
+    var key = S.guest, info = DT.touristIndex(S.admin)[key] || null, t = info ? info.t : null;
+    var ar = R.runs.find(function (r) { return r.kind === 'arr' && r.pax.some(function (p) { return p.key === key; }); });
+    var dr = R.runs.find(function (r) { return r.kind === 'dep' && r.pax.some(function (p) { return p.key === key; }); });
+    var any = (ar || dr) ? (ar || dr).pax.find(function (p) { return p.key === key; }) : null;
+    var self = !ar && R.selfs.some(function (s) { return s.pax.some(function (p) { return p.key === key; }); });
+    var name = t ? t.name : any ? any.name : '';
+    function runBlock(title, r, p, dep) {
+      if (!r) return '';
+      var g = DT.guideById(S.admin, r.a.guideId);
+      return '<section class="gsec"><div class="eyebrow">' + title + '</div>' +
+        '<div class="gbig num">' + esc(r.time) + ' <span>' + esc(dLong(r.date)) + '</span></div>' +
+        '<dl class="kv"><div><dt>Рейс</dt><dd class="num">' + esc(p.flight || '—') + (dep && p.time ? ' · ' + esc(p.time) : !dep && p.time ? ' · ' + esc(p.time) : '') + '</dd></div><div><dt>Терминал</dt><dd>' + esc(p.terminal || '—') + '</dd></div>' +
+        '<div><dt>Машина</dt><dd>' + esc(runLabel(r)) + '</dd></div><div><dt>Водитель</dt><dd>' + esc([r.a.driver, r.a.driverPhone].filter(Boolean).join(' · ') || '—') + '</dd></div>' +
+        '<div><dt>Отметка гида</dt><dd>' + (function () { var mi = markInfo(r.key, p.key), s = markOf(r.key, p.key); return s === 'out' ? '<span class="okt">Вышел</span>' + (mi && mi.t ? ' · ' + hhmm(mi.t) : '') : s === 'no' ? '<span class="badt">Не вышел</span>' + (mi && mi.t ? ' · ' + hhmm(mi.t) : '') : '—'; })() + '</dd></div>' +
+        '<div><dt>Гид</dt><dd>' + (g ? esc(g.name) + (g.phone ? '<br><span class="hint num">' + esc(g.phone) + '</span>' : '') : '<span class="badt">не назначен</span>') + '</dd></div><div><dt>В машине</dt><dd class="num">' + plural(r.pax.length, 'гость', 'гостя', 'гостей') + '</dd></div></dl></section>';
+    }
+    return '<button class="scrim" data-act="closeGuest" aria-label="Закрыть карточку гостя"></button><aside class="drawer" role="dialog" aria-label="Карточка гостя">' +
+      '<div class="row"><div><div class="eyebrow">' + esc(info ? info.tour + ' · ' + info.group : 'Гость') + '</div><h2 class="dname">' + esc(nice(name)) + '</h2>' + (t && t.age ? '<div class="hint">' + plural(t.age, 'год', 'года', 'лет') + '</div>' : '') + '</div><button class="btn ghost sm" data-act="closeGuest">Закрыть</button></div>' +
+      (t ? '<div class="pkg">' + (t.pkg ? '<span class="tag gold">' + esc(t.pkg) + '</span>' : '<span class="tag">Пакет не указан</span>') + (t.extras || []).map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join('') + (t.birthday ? '<span class="tag">ДР ' + esc(t.birthday.split('-').reverse().join('.')) + '</span>' : '') + '</div>' : '') +
+      (ar ? runBlock('Прилёт · встреча', ar, ar.pax.find(function (p) { return p.key === key; }), false) : self ? '<section class="gsec"><div class="eyebrow">Прилёт</div><p style="margin:4px 0 0">Добирается до отеля самостоятельно.</p></section>' : (t ? '<section class="gsec"><div class="eyebrow">Прилёт</div><p class="hint" style="margin:4px 0 0">Нет в листе прилётов.</p></section>' : '')) +
+      (dr ? runBlock('Вылет · забор из отеля', dr, dr.pax.find(function (p) { return p.key === key; }), true) : '<section class="gsec"><div class="eyebrow">Вылет</div><p class="hint" style="margin:4px 0 0">Список вылетов на этого гостя ещё не загружен.</p></section>') +
+      (t && (t.info || []).length ? '<section class="gsec"><div class="eyebrow">Видит турист</div><ul class="infos">' + t.info.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>' : '') +
+      (t && t.note ? '<section class="gsec"><div class="eyebrow">Комментарий <span class="private">не для туриста</span></div><p class="snote" style="white-space:pre-line">' + esc(t.note) + '</p></section>' : '') +
+      '</aside>';
+  }
+
+  /* ---------- KAPAK: transfer sheet of the day ---------- */
+  function kapakRuns(R) { return R.runs.filter(function (r) { return r.date === S.day; }); }
+  function kapakText(R) {
+    var p = dparts(S.day), runs = kapakRuns(R), out = ['DREAM TOUR · ' + ('0' + p.d).slice(-2) + '.' + ('0' + p.m).slice(-2) + '.' + p.y];
+    [['arr', 'ПРИЛЁТЫ'], ['dep', 'ВЫЛЕТЫ · забор из отеля']].forEach(function (k) {
+      var l = runs.filter(function (r) { return r.kind === k[0]; });
+      if (!l.length) return;
+      out.push('', k[1]);
+      l.forEach(function (r) {
+        out.push('', r.time + ' · ' + r.flights.map(function (f) { return f.flight + (k[0] === 'dep' && f.time ? ' ' + f.time : '') + (f.terminal ? ' (' + f.terminal + ')' : ''); }).join(', '));
+        out.push('Машина: ' + ([r.vehicle, r.a.plate].filter(Boolean).join(' ') || '—'));
+        if (r.a.driver || r.a.driverPhone) out.push('Водитель: ' + [r.a.driver, r.a.driverPhone].filter(Boolean).join(' '));
+        out.push('Гид: ' + (guideName(r.a.guideId) || '—'));
+        out.push('Туристов: ' + r.pax.length + ' — ' + r.pax.map(function (x) { return nice(x.name); }).join(', '));
+      });
+    });
+    return out.join('\n');
+  }
+  function vKapak(R) {
+    var runs = kapakRuns(R);
+    var h = '<div class="split"><div style="min-width:0"><div class="row"><h2 class="ah" style="margin:0">КАПАК на ' + esc(dLong(S.day)) + '</h2><button class="btn sm" data-act="kapakXlsx">Скачать КАПАК (Excel)</button></div>' +
+      '<p class="hint">Все машины дня по времени. Номера, водителей и гидов заполняйте во вкладках «Прилёты» и «Вылеты», здесь они собираются в один лист.</p>' +
+      '<div class="tblwrap"><table class="tbl"><thead><tr><th>Время</th><th>Тип</th><th>Рейс</th><th>Туристов</th><th>Машина</th><th>Номер</th><th>Водитель</th><th>Гид</th></tr></thead><tbody>' +
+      (runs.length ? runs.map(function (r) {
+        return '<tr><td class="nw num"><b>' + esc(r.time) + '</b></td><td>' + (r.kind === 'arr' ? 'Прилёт' : 'Вылет') + '</td><td class="nw">' + r.flights.map(function (f) { return esc(f.flight); }).join('<br>') + '</td><td class="num">' + r.pax.length + '</td>' +
+          '<td>' + esc(r.vehicle) + '</td><td class="nw mono">' + (r.a.plate ? esc(r.a.plate) : '<span class="warnt">—</span>') + '</td><td class="nw">' + esc([r.a.driver, r.a.driverPhone].filter(Boolean).join(' · ') || '—') + '</td>' +
+          '<td class="nw">' + (r.a.guideId ? esc(guideName(r.a.guideId)) : '<span class="badt">не назначен</span>') + '</td></tr>';
+      }).join('') : '<tr><td colspan="8" class="hint">На этот день машин нет.</td></tr>') + '</tbody></table></div></div>' +
+      '<div class="sidebox"><h2 class="ah" style="margin:0">Сообщение в группу</h2><pre class="msgbox">' + esc(kapakText(R)) + '</pre><button class="btn ghost" data-act="copyKapak">Скопировать текст</button></div></div>';
+    return h;
+  }
+  async function kapakXlsx() {
+    var R = DT.runs(S.admin), runs = kapakRuns(R), p = dparts(S.day), ds = ('0' + p.d).slice(-2) + '.' + ('0' + p.m).slice(-2) + '.' + p.y;
+    if (!S.downloads && !HOSTED) { S.msg = { bad: true, text: 'Скачивание файлов доступно, когда страница открыта в claude.ai. Текст можно скопировать справа.' }; render(); return; }
+    try {
+      var X = await loadXLSX(), wb = X.utils.book_new();
+      [['arr', 'ПРИЛЁТ'], ['dep', 'ВЫЛЕТ']].forEach(function (k) {
+        var rows = [['DREAM TOUR · КАПАК · ' + k[1] + ' · ' + ds], [], k[0] === 'arr' ? ['Время', 'Рейс', 'Терминал', '№', 'ФИО', 'Группа', 'Машина', 'Номер', 'Водитель', 'Телефон', 'Гид'] : ['Забор', 'Рейс', 'Вылет', 'Терминал', '№', 'ФИО', 'Группа', 'Машина', 'Номер', 'Водитель', 'Телефон', 'Гид']];
+        runs.filter(function (r) { return r.kind === k[0]; }).forEach(function (r) {
+          var fl = r.flights.map(function (f) { return f.flight; }).join(', '), term = uniq(r.flights.map(function (f) { return f.terminal; })).join(', ');
+          r.pax.forEach(function (x, i) {
+            var base = [i ? '' : r.time, i ? '' : fl];
+            if (k[0] === 'dep') base.push(i ? '' : r.flights.map(function (f) { return f.time; }).join(', '));
+            rows.push(base.concat([i ? '' : term, i + 1, nice(x.name), x.group || '', i ? '' : r.vehicle, i ? '' : r.a.plate || '', i ? '' : r.a.driver || '', i ? '' : r.a.driverPhone || '', i ? '' : guideName(r.a.guideId)]));
+          });
+          rows.push([]);
+        });
+        var ws = X.utils.aoa_to_sheet(rows);
+        ws['!cols'] = rows[2].map(function (c) { return { wch: /ФИО/.test(c) ? 28 : /Гид|Водитель|Группа/.test(c) ? 16 : 11 }; });
+        X.utils.book_append_sheet(wb, ws, k[1]);
+      });
+      var buf = X.write(wb, { type: 'array', bookType: 'xlsx' });
+      var fname = ds + '_KAPAK_DreamTour.xlsx';
+      if (HOSTED) {
+        var url = URL.createObjectURL(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+        var aEl = document.createElement('a'); aEl.href = url; aEl.download = fname; document.body.appendChild(aEl); aEl.click(); aEl.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      } else await S.downloads.save({ filename: fname, data: new Uint8Array(buf) });
+    } catch (e) { if (e && e.code !== 'declined' && e.code !== 'cancelled') { S.msg = { bad: true, text: 'Файл не сохранён: ' + (e.message || e.code || e) }; render(); } }
+  }
+
+  /* ---------- guides ---------- */
+  function vGuides(R) {
+    var G = guides();
+    var h = '<section class="panel"><h2>Гиды</h2><p class="hint">У каждого гида свой код. Гид вводит его на главной странице, там же, где туристы вводят код группы, и попадает в свой кабинет: машины на день со списком туристов и его группы с комментариями.</p>' +
+      '<form class="addrow" id="addGuide"><input class="input" id="ngName" placeholder="Имя гида" required aria-label="Имя гида"><input class="input" id="ngPhone" placeholder="Телефон" aria-label="Телефон гида"><button class="btn sm" type="submit">Добавить гида</button></form>';
+    if (G.length) {
+      h += '<div class="tblwrap"><table class="tbl"><thead><tr><th>Гид</th><th>Телефон</th><th>Код входа</th><th>Машин</th><th>Группы</th><th></th></tr></thead><tbody>' +
+        G.map(function (g, i) {
+          var rr = R.runs.filter(function (r) { return r.a.guideId === g.id; });
+          var today = rr.filter(function (r) { return r.date === S.day; }).length;
+          var grs = []; S.admin.tours.forEach(function (t) { if (!t.archived) t.groups.forEach(function (x) { if (x.guideId === g.id) grs.push(x.name); }); });
+          return '<tr><td><input class="input" data-f="gd.' + i + '.name" value="' + esc(g.name) + '" aria-label="Имя"></td><td><input class="input mono" data-f="gd.' + i + '.phone" value="' + esc(g.phone || '') + '" aria-label="Телефон"></td>' +
+            '<td class="nw"><input class="input code" style="width:170px" data-f="gd.' + i + '.code" value="' + esc(g.code) + '" aria-label="Код гида"> <button class="btn ghost sm" data-gnew="' + i + '">Новый</button> <button class="btn ghost sm" data-copy="' + esc(g.code) + '">Копировать</button></td>' +
+            '<td class="num nw">' + rr.length + (today ? '<div class="hint">' + esc(dShort(S.day)) + ': ' + today + '</div>' : '') + '</td><td>' + esc(grs.join(', ') || '—') + '</td>' +
+            '<td class="nw"><button class="btn sm" data-gprev="' + i + '">Кабинет гида</button> <button class="btn ghost sm" data-gdel="' + i + '">' + (S.confirmDel === g.id ? 'Точно удалить?' : 'Удалить') + '</button></td></tr>';
+        }).join('') + '</tbody></table></div>';
+    } else h += '<p class="hint">Пока ни одного гида.</p>';
+    h += '</section><section class="panel"><h2>Гиды групп</h2><p class="hint">Гид группы видит её полный список, пакеты, допы, оплаты на месте и ваши комментарии. Туристы видят его имя и телефон.</p><div class="tblwrap"><table class="tbl"><thead><tr><th>Заезд</th><th>Группа</th><th>Туристов</th><th>Гид</th></tr></thead><tbody>';
+    S.admin.tours.forEach(function (t, ti) {
+      if (t.archived) return;
+      t.groups.forEach(function (g, gi) {
+        h += '<tr><td>' + esc(t.title) + ' · ' + esc(dShort(t.start)) + '</td><td><b>' + esc(g.name) + '</b></td><td class="num">' + g.tourists.length + '</td><td><select class="input" data-f="gg.' + ti + '.' + gi + '" aria-label="Гид группы">' + guideOptions(g.guideId) + '</select></td></tr>';
+      });
+    });
+    return h + '</tbody></table></div></section>';
+  }
+
+  /* ---------- checks ---------- */
+  function checks(R) {
+    var out = [], t = todayISO();
+    R.runs.filter(function (r) { return r.date >= t; }).forEach(function (r) {
+      var what = (r.kind === 'arr' ? 'Прилёт ' : 'Выезд ') + dShort(r.date) + ' ' + r.time + ' · ' + r.flights.map(function (f) { return f.flight; }).join(', ') + ' · ' + r.vehicle;
+      if (!r.a.guideId) out.push({ sev: 'crit', title: what, det: 'Не назначен гид · ' + plural(r.pax.length, 'турист', 'туриста', 'туристов'), day: r.date, tab: 'veh' });
+      else if (!r.a.plate || !r.a.driverPhone) out.push({ sev: 'warn', title: what, det: 'Нет ' + [!r.a.plate ? 'номера машины' : '', !r.a.driverPhone ? 'телефона водителя' : ''].filter(Boolean).join(' и '), day: r.date, tab: 'veh' });
+    });
+    S.admin.tours.forEach(function (tr) {
+      if (tr.archived) return;
+      tr.groups.forEach(function (g) {
+        if (!g.guideId) out.push({ sev: 'warn', title: tr.title + ' · ' + g.name, det: 'У группы нет гида', tab: 'guides' });
+        var noArr = g.tourists.filter(function (x) { return !x.arrival; });
+        if (noArr.length) out.push({ sev: 'info', title: g.name + ': нет данных о прилёте', det: noArr.map(function (x) { return nice(x.name); }).join(', ') + '. Возможно, прилетели раньше и уже в отеле.', tab: 'groups' });
+        var noDep = g.tourists.filter(function (x) { return !x.departure; });
+        if (tr.end && diffDays(t, tr.end) <= 3 && diffDays(t, tr.end) >= 0 && noDep.length) out.push({ sev: 'warn', title: g.name + ': нет вылета у ' + plural(noDep.length, 'туриста', 'туристов', 'туристов'), det: 'Тур заканчивается ' + dLong(tr.end) + '. Загрузите DEPARLAR на эту дату.', tab: 'upload' });
+      });
+    });
+    guides().forEach(function (g) { if (!g.code) out.push({ sev: 'warn', title: g.name, det: 'У гида нет кода входа', tab: 'guides' }); });
+    var order = { crit: 0, warn: 1, info: 2 };
+    return out.sort(function (a, b) { return order[a.sev] - order[b.sev]; });
+  }
+  function vChecks(issues) {
+    if (!issues.length) return '<div class="panel empty"><h3>Всё в порядке</h3><p class="hint">У всех машин есть гид, номер и телефон водителя.</p></div>';
+    return '<p class="hint">Проверяются машины с сегодняшнего дня и все открытые группы. Нажмите на пункт, чтобы перейти к нему.</p><div class="checks">' + issues.map(function (i) {
+      return '<button class="chk ' + i.sev + '" data-goto="' + i.tab + '|' + (i.day || '') + '"><span class="bar"></span><span class="body"><span class="sev">' + { crit: 'Срочно', warn: 'Нужно внимание', info: 'Для сведения' }[i.sev] + '</span><b>' + esc(i.title) + '</b><span class="det">' + esc(i.det) + '</span></span></button>';
+    }).join('') + '</div>';
+  }
+
+  /* ---------- upload ---------- */
+  var ACCEPT = '.xlsx,.xls,.xlsm,.ods,.csv,.tsv,.txt,.pdf,.docx,.jpg,.jpeg,.png,.webp,image/*,application/pdf';
+  function vUpload() {
+    return vPending() + '<section class="panel"><h2>Загрузить документы</h2><p class="hint">Подходит любой формат: Excel, CSV, PDF (в том числе скан), Word (.docx), текст или фото списка. Можно нажать на поле или перетащить файл. Перед загрузкой программа покажет, что прочитала.</p>' +
+      '<label class="f" for="upTour" style="max-width:360px;margin-bottom:12px">Заезд<select class="input" id="upTour">' + S.admin.tours.map(function (t, i) { return '<option value="' + i + '"' + (i === S.tourIdx ? ' selected' : '') + '>' + esc(t.title) + ' · ' + esc(dShort(t.start)) + '</option>'; }).join('') + '</select></label>' +
+      '<div class="uploads">' +
+      '<label class="drop" for="upGroups" data-kind="groups"><b>Список групп</b><span class="hint">ГРУППА 1, 2, 3… с ФИО и комментариями, можно вместе с листом прилётов</span><input type="file" id="upGroups" accept="' + ACCEPT + '"></label>' +
+      '<label class="drop" for="upKapak" data-kind="kapak"><b>КАПАК / прилёты</b><span class="hint">Список прилётов на день. Заменяет прилёты на те же даты</span><input type="file" id="upKapak" accept="' + ACCEPT + '"></label>' +
+      '<label class="drop" for="upDeps" data-kind="dep"><b>Вылеты (DEPARLAR)</b><span class="hint">Время забора из отеля, машина, рейс</span><input type="file" id="upDeps" accept="' + ACCEPT + '"></label></div>' + depSummary() + '</section>';
+  }
+
+  /* ---------- groups & tourists (tour setup) ---------- */
+  function vGroupsAdmin() {
+    var A = S.admin, T = tour(), h = '';
+    h += '<section class="panel"><div class="row"><h2>Заезды</h2><button class="btn ghost sm" data-act="newTour">Новый заезд</button></div><div class="tourtabs" style="margin-top:10px">' +
+      A.tours.map(function (t, i) { return '<button class="btn ghost sm" data-tour="' + i + '" aria-pressed="' + (i === S.tourIdx) + '">' + esc(t.title) + ' · ' + esc(dShort(t.start)) + (t.archived ? ' (закрыт)' : '') + '</button>'; }).join('') + '</div></section>';
+    if (!T) return h;
+    h += '<section class="panel"><h2>Заезд</h2><p class="hint">Название и даты видят туристы всех групп этого заезда.</p><div class="fields">' +
+      fld('Название тура', 'tour.title', T.title) + fld('Подзаголовок', 'tour.subtitle', T.subtitle || '') +
+      fld('Начало', 'tour.start', T.start, 'date') + fld('Окончание', 'tour.end', T.end, 'date') + '</div></section>';
+    h += '<section class="panel"><h2>Группы и коды доступа</h2><p class="hint">Турист вводит код и видит только свою группу. Новые коды начинают работать после публикации.</p><div class="tblwrap"><table class="tbl"><thead><tr><th>Группа</th><th>Туристов</th><th>Код</th><th>Гид</th><th></th></tr></thead><tbody>' +
+      T.groups.map(function (g, i) {
+        var dep = g.tourists.filter(function (t) { return t.departure; }).length;
+        return '<tr><td><input class="input" data-f="g.' + i + '.name" value="' + esc(g.name) + '" aria-label="Название группы"></td>' +
+          '<td class="nw num">' + g.tourists.length + '<div class="hint">с вылетом: ' + dep + '</div></td>' +
+          '<td class="nw"><input class="input code" style="width:190px" data-f="g.' + i + '.password" value="' + esc(g.password) + '" aria-label="Код группы"> <button class="btn ghost sm" data-newcode="' + i + '">Новый</button> <button class="btn ghost sm" data-copy="' + esc(g.password) + '">Копировать</button></td>' +
+          '<td><select class="input" data-f="g.' + i + '.guideId" aria-label="Гид группы">' + guideOptions(g.guideId) + '</select></td>' +
+          '<td class="nw"><button class="btn sm" data-preview="' + i + '">Глазами туриста</button></td></tr>';
+      }).join('') + '</tbody></table></div>' + (T.groups.length ? '' : '<p class="hint">Групп пока нет. Загрузите список групп во вкладке «Загрузка».</p>') + '</section>';
+    h += '<section class="panel"><div class="row"><h2>Маршрут по дням</h2><div class="row"><button class="btn ghost sm" data-act="redate">Даты по порядку от начала</button><button class="btn ghost sm" data-act="addDay">Добавить день</button></div></div><p class="hint">Черновой маршрут. Поправьте под реальную программу заезда.</p>' +
+      T.route.map(function (d, i) {
+        return '<div class="daygrid"><input class="input" type="date" data-f="r.' + i + '.date" value="' + esc(d.date) + '" aria-label="Дата" style="font-size:13px;padding:8px">' +
+          '<input class="input" data-f="r.' + i + '.place" value="' + esc(d.place) + '" placeholder="Где" aria-label="Место">' +
+          '<input class="input" data-f="r.' + i + '.title" value="' + esc(d.title) + '" placeholder="Заголовок дня" aria-label="Заголовок">' +
+          '<textarea class="input wide2" rows="2" data-f="r.' + i + '.text" aria-label="Описание">' + esc(d.text) + '</textarea>' +
+          '<button class="btn ghost sm" data-delday="' + i + '" aria-label="Удалить день">Удалить</button></div>';
+      }).join('') + '</section>';
+    var G = T.groups[S.groupIdx] || T.groups[0];
+    if (G) {
+      var gi = T.groups.indexOf(G);
+      h += '<section class="panel"><div class="row"><h2>Туристы</h2><div class="tourtabs">' + T.groups.map(function (g, i) { return '<button class="btn ghost sm" data-grp="' + i + '" aria-pressed="' + (g === G) + '">' + esc(g.name) + '</button>'; }).join('') + '</div></div>' +
+        '<p class="hint">«Комментарий» видите вы и гид группы. Туристу показываются только факты из колонки «Туристу»: доп. сутки, трансфер, доплаты.</p>' +
+        '<div class="tblwrap"><table class="tbl"><thead><tr><th>№</th><th>ФИО</th><th>Пакет</th><th>Прилёт</th><th>Вылет / забор</th><th>Туристу</th><th>Комментарий <span class="private">не для туриста</span></th></tr></thead><tbody>' +
+        G.tourists.map(function (t, j) {
+          var a = t.arrival, d = t.departure;
+          return '<tr><td class="num">' + (j + 1) + '</td><td class="nw"><b>' + esc(nice(t.name)) + '</b>' + (t.age ? '<div class="hint">' + plural(t.age, 'год', 'года', 'лет') + '</div>' : '') + (t.birthday ? '<div class="hint">ДР ' + esc(t.birthday.split('-').reverse().join('.')) + '</div>' : '') + '</td>' +
+            '<td><select class="input" data-f="t.' + gi + '.' + j + '.pkg" aria-label="Пакет">' + ['', 'Премиум+', 'Премиум', 'Лайт'].map(function (o) { return '<option value="' + o + '"' + (t.pkg === o ? ' selected' : '') + '>' + (o || '—') + '</option>'; }).join('') + '</select></td>' +
+            '<td class="nw num">' + (a ? (a.self ? 'Сам · ' + esc(dShort(a.date)) : esc(dShort(a.date)) + ' ' + esc(a.time) + '<div class="hint">' + esc(a.flight) + '</div>') : '<span class="hint">—</span>') + '</td>' +
+            '<td class="nw num">' + (d ? esc(dShort(d.pickupDate)) + ' <b>' + esc(d.pickup) + '</b><div class="hint">' + esc(d.vehicle) + ' · ' + esc(d.flight) + ' ' + esc(d.time) + '</div>' : '<span class="hint">нет в списке</span>') + '</td>' +
+            '<td class="note">' + esc((t.info || []).join('\n')) + '</td><td class="note">' + esc(t.note || '') + '</td></tr>';
+        }).join('') + '</tbody></table></div></section>';
+    }
+    h += '<section class="panel"><h2>Настройки</h2><div class="fields">' +
+      fld('Телефон Dream Tour для туристов', 'contact.phone', (A.contact || {}).phone || '') +
+      '<label class="f" for="newAdmin">Новый пароль администратора<input class="input" id="newAdmin" type="password" placeholder="Оставьте пустым, чтобы не менять" value="' + esc(S.newAdminPass) + '"></label></div>' +
+      '<div class="row" style="margin-top:14px"><span class="hint">Заезд целиком можно убрать из доступа туристов.</span><button class="btn ghost sm" data-act="archive">' + (T.archived ? 'Вернуть заезд туристам' : 'Закрыть заезд для туристов') + '</button></div></section>';
+    return h;
+  }
+
+  function fld(label, key, val, type) {
+    var id = 'f_' + key.replace(/\W/g, '_');
+    return '<label class="f" for="' + id + '">' + esc(label) + '<input class="input" id="' + id + '" type="' + (type || 'text') + '" data-f="' + key + '" value="' + esc(val) + '"></label>';
+  }
+
+  function depSummary() {
+    var dep = S.admin.departures || { slots: [], pax: [] };
+    if (!dep.pax.length) return '<p class="hint" style="margin-top:12px">Список вылетов ещё не загружен.</p>';
+    var by = {};
+    dep.pax.forEach(function (p) { by[p.pickupDate] = (by[p.pickupDate] || 0) + 1; });
+    return '<p class="hint" style="margin-top:12px">Загружены вылеты: ' + Object.keys(by).sort().map(function (d) { return dShort(d) + ' (' + plural(by[d], 'турист', 'туриста', 'туристов') + ')'; }).join(', ') + '.</p>';
+  }
+
+  function setField(key, val) {
+    var A = S.admin, T = tour(), p = key.split('.');
+    if (p[0] === 'tour') { T[p[1]] = val; }
+    else if (p[0] === 'g') { T.groups[+p[1]][p[2]] = p[2] === 'password' ? DT.normPass(val) : val; }
+    else if (p[0] === 'gg') { A.tours[+p[1]].groups[+p[2]].guideId = val; }
+    else if (p[0] === 'gd') { guides()[+p[1]][p[2]] = p[2] === 'code' ? DT.normPass(val) : val; }
+    else if (p[0] === 'r') { T.route[+p[1]][p[2]] = val; }
+    else if (p[0] === 't') { T.groups[+p[1]].tourists[+p[2]][p[3]] = val; }
+    else if (p[0] === 'contact') { A.contact = A.contact || {}; A.contact[p[1]] = val; }
+    markDirty();
+  }
+  function setAssign(key, field, val) {
+    var A = S.admin; A.assign = A.assign || {};
+    var a = A.assign[key] = A.assign[key] || {};
+    a[field] = val;
+    if (!a.guideId && !a.plate && !a.driver && !a.driverPhone && !a.note) delete A.assign[key];
+    markDirty();
+  }
+  function markDirty() { if (!S.dirty) { S.dirty = true; render(); } }
+
+  function allCodes() {
+    var out = [];
+    S.admin.tours.forEach(function (t) { t.groups.forEach(function (g) { if (g.password) out.push(g.password); }); });
+    guides().forEach(function (g) { if (g.code) out.push(g.code); });
+    return out;
+  }
+
+  async function loadXLSX() {
+    if (window.XLSX) return window.XLSX;
+    await new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.onload = res; s.onerror = function () { rej(new Error('Не удалось загрузить модуль Excel')); };
+      document.head.appendChild(s);
+    });
+    return window.XLSX;
+  }
+  async function readWb(file) {
+    var X = await loadXLSX(), buf = await file.arrayBuffer();
+    return { X: X, wb: X.read(buf, { type: 'array' }) };
+  }
+
+  /* ---------- reading any file: Excel, CSV, PDF (text or scan), Word, text, photo ---------- */
+  var LIBS = {
+    pdf: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    pdfw: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+    mammoth: 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
+    ocr: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js'
+  };
+  function loadScript(src, global) {
+    if (window[global]) return Promise.resolve(window[global]);
+    return new Promise(function (res, rej) {
+      var s = document.createElement('script'); s.src = src;
+      s.onload = function () { res(window[global]); }; s.onerror = function () { rej(new Error('Не удалось загрузить модуль для чтения файла. Проверьте интернет.')); };
+      document.head.appendChild(s);
+    });
+  }
+  function progress(t) { S.msg = { text: t }; renderSoft(); }
+
+  async function ocrItems(src, page, items) {
+    var T = await loadScript(LIBS.ocr, 'Tesseract');
+    var r = await T.recognize(src, 'rus+eng', { logger: function (m) { if (m.status === 'recognizing text') progress('Распознаём текст' + (page ? ', страница ' + page : '') + ': ' + Math.round(m.progress * 100) + '%'); } });
+    (r.data.words || []).forEach(function (w) { var b = w.bbox; items.push({ s: w.text, x: b.x0, y: (b.y0 + b.y1) / 2, w: b.x1 - b.x0, h: b.y1 - b.y0, page: page || 1 }); });
+  }
+
+  async function readAny(file, kind, year) {
+    var name = file.name || 'файл', ext = (name.split('.').pop() || '').toLowerCase(), type = file.type || '';
+    if (/^(xlsx|xlsm|xls|xlsb|ods|csv|tsv)$/.test(ext) || /sheet|excel|csv/.test(type)) {
+      progress('Читаем таблицу…');
+      var X = await loadXLSX(), buf = await file.arrayBuffer();
+      return { X: X, wb: X.read(buf, { type: 'array' }), how: ext.toUpperCase() };
+    }
+    var lines, how;
+    if (ext === 'pdf' || type === 'application/pdf') {
+      progress('Читаем PDF…');
+      var pdfjs = await loadScript(LIBS.pdf, 'pdfjsLib');
+      pdfjs.GlobalWorkerOptions.workerSrc = LIBS.pdfw;
+      var doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise, items = [], chars = 0;
+      for (var pg = 1; pg <= doc.numPages; pg++) {
+        var page = await doc.getPage(pg), vp = page.getViewport({ scale: 1 }), tc = await page.getTextContent();
+        tc.items.forEach(function (it) { if (!it.str || !it.str.trim()) return; chars += it.str.length; items.push({ s: it.str, x: it.transform[4], y: vp.height - it.transform[5], w: it.width, h: it.height || Math.abs(it.transform[3]), page: pg }); });
+      }
+      how = 'PDF';
+      if (chars < 20 * doc.numPages) {
+        items = []; how = 'PDF-скан, распознавание текста';
+        for (var p2 = 1; p2 <= doc.numPages; p2++) {
+          var pp = await doc.getPage(p2), v2 = pp.getViewport({ scale: 2.2 }), cv = document.createElement('canvas');
+          cv.width = v2.width; cv.height = v2.height;
+          await pp.render({ canvasContext: cv.getContext('2d'), viewport: v2 }).promise;
+          await ocrItems(cv, p2, items);
+        }
+      }
+      lines = DT.linesFromItems(items);
+    } else if (ext === 'docx' || /wordprocessingml/.test(type)) {
+      progress('Читаем документ Word…');
+      var mm = await loadScript(LIBS.mammoth, 'mammoth');
+      var html = (await mm.convertToHtml({ arrayBuffer: await file.arrayBuffer() })).value;
+      var dom = new DOMParser().parseFromString(html, 'text/html');
+      lines = [];
+      (function walk(el) {
+        Array.prototype.forEach.call(el.children, function (c) {
+          if (c.tagName === 'TABLE') Array.prototype.forEach.call(c.querySelectorAll('tr'), function (tr) { lines.push(Array.prototype.map.call(tr.children, function (td) { return td.textContent.trim(); })); });
+          else if (/^(P|H\d|LI)$/.test(c.tagName)) lines.push(DT.linesFromText(c.textContent)[0] || []);
+          else walk(c);
+        });
+      })(dom.body);
+      how = 'Word';
+    } else if (/^(txt|text)$/.test(ext) || /^text\//.test(type)) {
+      lines = DT.linesFromText(await file.text()); how = 'текст';
+    } else if (/^(jpe?g|png|webp|bmp|gif)$/.test(ext) || /^image\/(jpeg|png|webp|bmp|gif)/.test(type)) {
+      progress('Распознаём текст на фото…');
+      var items2 = []; await ocrItems(file, 1, items2);
+      lines = DT.linesFromItems(items2); how = 'фото, распознавание текста';
+    } else if (/^(heic|heif)$/.test(ext)) {
+      throw new Error('Фото в формате HEIC браузер не открывает. Сделайте снимок экрана или сохраните фото как JPG.');
+    } else if (/^(doc|rtf|pages|numbers|key|odt)$/.test(ext)) {
+      throw new Error('Файл .' + ext + ' нужно сначала сохранить как PDF, Excel или Word (.docx), потом загрузить.');
+    } else throw new Error('Не понимаем формат файла «' + name + '». Подойдут Excel, CSV, PDF, Word (.docx), текст или фото.');
+    return { X: null, wb: DT.textWorkbook(lines, kind, year), how: how };
+  }
+
+  function fileDate(name) { var m = String(name).match(/(\d{1,2})[._-](\d{1,2})[._-](\d{4})/); return m ? m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2) : ''; }
+
+  async function uploadFile(file, kind) {
+    S.pend = null; S.atab = 'upload';
+    try {
+      var T = tour(), year = +(T && T.start || todayISO()).slice(0, 4);
+      var r = await readAny(file, kind === 'kapak' ? 'arr' : kind, year), res;
+      if (kind === 'dep') {
+        res = DT.parseDeparturesWorkbook(r.X, r.wb, year);
+        if (!res.pax.length) throw new Error('В файле не нашлось строк вылета: №, ФИО, рейс, время.');
+      } else {
+        res = DT.parseGroupsWorkbook(r.X, r.wb, year);
+        if (kind === 'groups' && !res.groups.length) throw new Error('В файле не нашлось списка групп (№ и ФИО). Если это список прилётов, загрузите его в поле «КАПАК / прилёты».');
+        if (kind === 'kapak' && !res.arrivalList.length) throw new Error('В файле не нашлось строк прилёта: №, ФИО, рейс, время.');
+      }
+      S.pend = { kind: kind, name: file.name, how: r.how, res: res, date: fileDate(file.name), all: false };
+      S.msg = null;
+    } catch (e) { S.msg = { bad: true, text: (e && e.message) || String(e) }; }
+    render();
+  }
+
+  function pendRecords() {
+    var P = S.pend; if (!P) return [];
+    return P.kind === 'dep' ? P.res.pax : P.res.arrivalList;
+  }
+
+  function vPending() {
+    var P = S.pend; if (!P) return '';
+    var recs = pendRecords(), byDate = {}, noDate = 0;
+    recs.forEach(function (r) { var d = P.kind === 'dep' ? r.pickupDate : r.date; if (d) byDate[d] = (byDate[d] || 0) + 1; else noDate++; });
+    var title = { groups: 'Список групп', kapak: 'КАПАК / прилёты', dep: 'Вылеты' }[P.kind];
+    var h = '<section class="panel pend"><div class="row"><h2>Проверьте, что прочитано</h2><span class="tag">' + esc(title) + ' · ' + esc(P.how) + '</span></div><p class="hint">' + esc(P.name) + '</p>';
+    if (P.kind === 'groups') h += '<p><b>' + P.res.groups.map(function (g) { return esc(g.name) + ': ' + g.tourists.length; }).join(' · ') + '</b> · прилётов в файле: ' + P.res.arrivals + '</p>';
+    else h += '<p><b>' + plural(recs.length, 'гость', 'гостя', 'гостей') + '</b>' + (P.kind === 'dep' ? ' · ' + plural(P.res.slots.length, 'машина', 'машины', 'машин') : '') + '</p>';
+    if (recs.length) h += '<p class="hint">Даты: ' + (Object.keys(byDate).sort().map(function (d) { return dShort(d) + ' — ' + byDate[d]; }).join(', ') || '—') + (noDate ? ' · <span class="badt">без даты: ' + noDate + '</span>' : '') + '</p>' +
+      '<div class="pdate"><label class="f" for="pDate">Поставить дату<input class="input" type="date" id="pDate" value="' + esc(P.date) + '"></label>' +
+      '<label class="chkl"><input type="checkbox" id="pAll"' + (P.all ? ' checked' : '') + '> всем строкам, а не только без даты</label></div>';
+    var sample = P.kind === 'groups' ? [].concat.apply([], P.res.groups.map(function (g) { return g.tourists.slice(0, 4).map(function (t) { return [g.name, t.no || '', nice(t.name), t.age ? t.age + ' лет' : '', (t.info || []).join('; ')]; }); }))
+      : recs.slice(0, 40).map(function (r) { return P.kind === 'dep' ? [r.pickupDate ? dShort(r.pickupDate) : '—', r.pickup || '—', nice(r.name), r.flight + ' ' + r.time, r.vehicle] : [r.date ? dShort(r.date) : '—', r.self ? 'сам' : r.time, nice(r.name), r.flight, [r.terminal, r.vehicle].filter(Boolean).join(' · ')]; });
+    var head = P.kind === 'groups' ? ['Группа', '', 'ФИО', 'Возраст', 'Туристу'] : P.kind === 'dep' ? ['Дата', 'Забор', 'ФИО', 'Рейс', 'Машина'] : ['Дата', 'Время', 'ФИО', 'Рейс', 'Терминал · машина'];
+    h += '<div class="tblwrap"><table class="tbl"><thead><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      sample.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
+      (P.kind !== 'groups' && recs.length > 40 ? '<p class="hint">Показаны первые 40 строк из ' + recs.length + '.</p>' : '') +
+      '<div class="row" style="justify-content:flex-start;margin-top:12px"><button class="btn gold" data-act="applyPending">Загрузить</button><button class="btn ghost" data-act="cancelPending">Отмена</button></div></section>';
+    return h;
+  }
+
+  function applyPending() {
+    var P = S.pend, T = tour(); if (!P) return;
+    var d = (document.getElementById('pDate') || {}).value || P.date, all = !!(document.getElementById('pAll') || {}).checked;
+    if (d) {
+      if (P.kind === 'dep') {
+        P.res.pax.forEach(function (x) { if (all || !x.pickupDate) { x.pickupDate = d; x.date = x.date && !all ? x.date : d; var k = x.run.split('|'); k[1] = d; x.run = k.join('|'); } });
+        P.res.slots.forEach(function (s) { if (all || !s.date) s.date = d; });
+      } else P.res.arrivalList.forEach(function (a) { if (all || !a.date) a.date = d; });
+    }
+    try {
+      if (P.kind === 'dep') {
+        var n = DT.applyDepartures(S.admin, P.res);
+        S.msg = { text: 'Вылеты загружены: ' + plural(P.res.pax.length, 'гость', 'гостя', 'гостей') + ', совпало с туристами заездов: ' + n + '. Смотрите вкладку «Вылеты».' };
+      } else if (P.kind === 'kapak') {
+        var m = DT.applyArrivals(T, P.res.arrivalList), dates = uniq(P.res.arrivalList.map(function (a) { return a.date; }));
+        S.msg = { text: 'КАПАК загружен в заезд «' + T.title + '»: ' + plural(P.res.arrivalList.length, 'гость', 'гостя', 'гостей') + (dates.length ? ' на ' + dates.map(dShort).join(', ') : '') + '. Совпало с туристами групп: ' + m + '.' };
+        if (dates[0]) S.day = dates[0];
+      } else {
+        var res = P.res, taken = allCodes();
+        res.groups.forEach(function (ng) {
+          var old = T.groups.find(function (g) { return g.name.toLowerCase() === ng.name.toLowerCase(); });
+          if (old) { old.tourists = ng.tourists; old.extrasList = ng.extrasList; }
+          else { var pw = DT.newPassword(taken); taken.push(pw); T.groups.push({ id: 'g' + Date.now().toString(36) + T.groups.length, name: ng.name, password: pw, guideId: '', extrasList: ng.extrasList, tourists: ng.tourists }); }
+        });
+        if (res.arrivalList.length) DT.applyArrivals(T, res.arrivalList); else DT.matchArrivals(T);
+        var st = fileDate(P.name);
+        if (st && !T.groupsLoaded && st !== T.start) { var len = T.route.length; T.start = st; T.end = DT.addDays(st, Math.max(len, 1) - 1); T.route.forEach(function (x, i) { x.date = DT.addDays(st, i); }); }
+        T.groupsLoaded = true;
+        var dn = DT.matchDepartures(S.admin);
+        S.msg = { text: 'Загружено групп: ' + res.groups.length + ', туристов: ' + res.groups.reduce(function (s2, g) { return s2 + g.tourists.length; }, 0) + '. Прилётов в файле: ' + res.arrivals + ' (совпало: ' + res.arrivalsMatched + '). Вылет найден у ' + dn + '.' };
+      }
+      S.dirty = true; S.pend = null;
+    } catch (e) { S.msg = { bad: true, text: e.message || String(e) }; }
+    render();
+  }
+
+  /* Rebuild this page with new encrypted data and publish it as the next version. */
+  function buildDocument(data) {
+    var head = document.head.querySelector('style');
+    var reset = head ? head.textContent : ':root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+    var keeps = Array.prototype.slice.call(document.querySelectorAll('body > [data-keep]'));
+    var top = keeps.filter(function (e) { return e.tagName !== 'SCRIPT'; }).map(function (e) { return e.outerHTML; }).join('\n');
+    var scripts = keeps.filter(function (e) { return e.tagName === 'SCRIPT'; }).map(function (e) { return e.outerHTML; }).join('\n');
+    var json = JSON.stringify(data).replace(/</g, '\\u003c');
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + '</style></head><body>' +
+      top + '\n<div id="app"></div>\n<script type="application/json" id="dt-data">' + json + '<\/script>\n' + scripts + '</body></html>';
+  }
+
+  async function publish() {
+    var bad = [], seen = {};
+    S.admin.tours.forEach(function (t) { t.groups.forEach(function (g) { if (!g.password || g.password.length < 6) bad.push(g.name + ': код короче 6 символов'); if (seen[g.password]) bad.push('Код ' + g.password + ' повторяется'); seen[g.password] = 1; }); });
+    guides().forEach(function (g) { if (!g.code || g.code.length < 6) bad.push('Гид ' + g.name + ': код короче 6 символов'); else if (seen[g.code]) bad.push('Код ' + g.code + ' повторяется'); seen[g.code] = 1; });
+    if (bad.length) { S.msg = { bad: true, text: bad.join('. ') }; render(); return; }
+    if (HOSTED) return publishHosted();
+    var art = S.artifact;
+    if (!art) { S.msg = { bad: true, text: 'Опубликовать может только владелец страницы, открыв её в claude.ai.' }; render(); return; }
+    S.busy = true; S.msg = null; render();
+    try {
+      var pass = S.newAdminPass ? S.newAdminPass : S.adminPass;
+      var data = await DT.buildData(S.admin, pass);
+      await art.publish(buildDocument(data));
+      S.adminPass = pass; S.newAdminPass = ''; S.dirty = false;
+      S.msg = { text: 'Опубликовано. Туристы и гиды увидят изменения при следующем открытии.' };
+    } catch (e) {
+      var c = e && e.code;
+      S.msg = { bad: true, text: c === 'conflict' ? 'Страницу только что обновили в другом окне. Откройте её заново и повторите.' : c === 'not_writer' || c === 'not_granted' ? 'Нет прав на публикацию. Откройте страницу в claude.ai под аккаунтом владельца.' : 'Не получилось опубликовать: ' + (e && e.message || e) };
+    }
+    S.busy = false; render();
+  }
+
+  async function publishHosted() {
+    if (S.newAdminPass && S.newAdminPass.length < 10) { S.msg = { bad: true, text: 'Новый пароль администратора должен быть не короче 10 символов.' }; render(); return; }
+    S.busy = true; S.msg = null; render();
+    try {
+      var pass = S.newAdminPass ? S.newAdminPass : S.adminPass;
+      var data = await DT.buildData(S.admin, pass);
+      var body = { data: data, writeKey: await DT.writeKey(S.adminPass) };
+      if (S.newAdminPass) body.newWriteHash = await DT.sha256hex(await DT.writeKey(S.newAdminPass));
+      var r = await fetch('/api/data', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      if (r.status === 403) throw new Error('Сервер не принял пароль администратора.');
+      if (!r.ok) throw new Error('Сервер ответил ошибкой ' + r.status + '.');
+      DATA = data; S.adminPass = pass; S.newAdminPass = ''; S.dirty = false;
+      S.msg = { text: 'Опубликовано. Туристы и гиды увидят изменения при следующем открытии.' };
+    } catch (e) { S.msg = { bad: true, text: 'Не получилось опубликовать: ' + (e.message || e) + ' Проверьте интернет и попробуйте ещё раз.' }; }
+    S.busy = false; render();
+  }
+
+  /* ---------- render & events ---------- */
+  function render() {
+    var ae = document.activeElement, focusId = ae && (ae.id || (ae.dataset && (ae.dataset.a || ae.dataset.f))), selStart = null;
+    try { selStart = ae.selectionStart; } catch (e) {}
+    app.innerHTML = S.view === 'group' ? vGroup() : S.view === 'guide' ? vGuide() : S.view === 'adminLogin' ? vAdminLogin() : S.view === 'admin' ? vAdmin() : vLogin();
+    if (focusId) {
+      var el = document.getElementById(focusId) || app.querySelector('[data-a="' + CSS.escape(focusId) + '"],[data-f="' + CSS.escape(focusId) + '"]');
+      if (el && el.focus) { el.focus(); try { if (selStart != null) el.setSelectionRange(selStart, selStart); } catch (e) {} }
+    }
+  }
+
+  app.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (e.target.id === 'loginForm') doLogin(document.getElementById('code').value);
+    if (e.target.id === 'adminForm') adminLogin(document.getElementById('apass').value);
+    if (e.target.id === 'addGuide') {
+      var n = document.getElementById('ngName').value.trim(); if (!n) return;
+      guides().push({ id: 'gd' + Date.now().toString(36), name: n, phone: document.getElementById('ngPhone').value.trim(), code: DT.newPassword(allCodes()) });
+      S.dirty = true; render();
+    }
+  });
+
+  async function adminLogin(pass) {
+    S.busy = true; S.err = ''; render();
+    await dataReady;
+    var st = DATA.admin ? await DT.unlockAdmin(DATA, pass) : null;
+    S.busy = false;
+    if (!st) { S.err = 'Пароль не подошёл.'; render(); return; }
+    st.tours = st.tours || []; st.departures = st.departures || { pax: [], slots: [] }; st.guides = st.guides || []; st.assign = st.assign || {};
+    if (HOSTED) DT.writeKey(pass).then(startMarks);
+    S.admin = st; S.adminPass = pass; S.view = 'admin'; S.atab = 'arr'; S.day = null; S.dirty = false; S.msg = null; S.tourIdx = 0; S.groupIdx = 0;
+    render(); window.scrollTo(0, 0);
+  }
+
+  function has(v) { return v != null && v !== ''; }
+  app.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    var d = b.dataset;
+    if (d.tab) { S.tab = d.tab; render(); var tb = document.querySelector('.tabs'); if (tb && window.scrollY > tb.offsetTop) window.scrollTo(0, tb.offsetTop); return; }
+    if (d.me) { S.meId = d.me; if (!S.preview) store('dt.me.' + S.payload.group.id, d.me); render(); return; }
+    if (d.copy) {
+      var txt = d.copy;
+      try { navigator.clipboard.writeText(txt).then(function () { b.textContent = 'Скопировано'; }, function () { b.textContent = txt; }); } catch (er) { b.textContent = txt; }
+      return;
+    }
+    if (d.gtab) { S.gtab = d.gtab; render(); return; }
+    if (d.gday) { S.gday = d.gday; render(); return; }
+    if (d.mk) { var mp = d.mk.split('|'), ms = mp.pop(), mpax = mp.pop(), mrun = mp.join('|'); setMark(mrun, mpax, markOf(mrun, mpax) === ms ? '' : ms); return; }
+    if (d.atab) { S.atab = d.atab; S.msg = null; S.guest = null; render(); return; }
+    if (d.fx) { S.open[d.fx] = !S.open[d.fx]; render(); return; }
+    if (d.guest) { S.guest = d.guest; render(); var dw = document.querySelector('.drawer'); if (dw) dw.focus && dw.querySelector('button').focus(); return; }
+    if (d.day) { S.day = d.day; render(); return; }
+    if (d.goto) { var gp = d.goto.split('|'); S.atab = gp[0]; if (gp[1]) S.day = gp[1]; S.msg = null; render(); window.scrollTo(0, 0); return; }
+    if (has(d.tour)) { S.tourIdx = +d.tour; S.groupIdx = 0; S.msg = null; render(); return; }
+    if (has(d.grp)) { S.groupIdx = +d.grp; render(); return; }
+    if (has(d.newcode)) { tour().groups[+d.newcode].password = DT.newPassword(allCodes()); S.dirty = true; render(); return; }
+    if (has(d.gnew)) { guides()[+d.gnew].code = DT.newPassword(allCodes()); S.dirty = true; render(); return; }
+    if (has(d.gprev)) { openGuide(DT.guidePayload(S.admin, guides()[+d.gprev]), true); return; }
+    if (has(d.gdel)) {
+      var g = guides()[+d.gdel];
+      if (S.confirmDel !== g.id) { S.confirmDel = g.id; render(); return; }
+      guides().splice(+d.gdel, 1); S.confirmDel = null;
+      Object.keys(S.admin.assign || {}).forEach(function (k) { if (S.admin.assign[k].guideId === g.id) S.admin.assign[k].guideId = ''; });
+      S.admin.tours.forEach(function (t) { t.groups.forEach(function (x) { if (x.guideId === g.id) x.guideId = ''; }); });
+      S.dirty = true; render(); return;
+    }
+    if (has(d.preview)) { var T = tour(); openGroup(DT.groupPayload(S.admin, T, T.groups[+d.preview]), true); return; }
+    if (has(d.delday)) { tour().route.splice(+d.delday, 1); S.dirty = true; render(); return; }
+    switch (d.act) {
+      case 'logout': stopMarks(); store('dt.code', null); S.payload = null; S.meId = null; S.view = 'login'; render(); break;
+      case 'notMe': if (!S.preview) store('dt.me.' + S.payload.group.id, null); S.meId = null; S.tab = 'home'; render(); break;
+      case 'adminLogin': S.err = ''; S.view = 'adminLogin'; render(); break;
+      case 'toLogin': S.err = ''; S.view = 'login'; render(); break;
+      case 'backAdmin': S.view = 'admin'; S.preview = false; render(); window.scrollTo(0, 0); break;
+      case 'adminOut': stopMarks(); S.admin = null; S.adminPass = ''; S.view = 'login'; render(); break;
+      case 'applyPending': applyPending(); break;
+      case 'cancelPending': S.pend = null; S.msg = null; render(); break;
+      case 'closeGuest': S.guest = null; render(); break;
+      case 'publish': publish(); break;
+      case 'kapakXlsx': kapakXlsx(); break;
+      case 'copyKapak':
+        var t2 = kapakText(DT.runs(S.admin));
+        try { navigator.clipboard.writeText(t2).then(function () { b.textContent = 'Скопировано'; }, function () { b.textContent = 'Выделите текст выше и скопируйте'; }); } catch (er) { b.textContent = 'Выделите текст выше и скопируйте'; }
+        break;
+      case 'addDay': var T2 = tour(), last = T2.route[T2.route.length - 1]; T2.route.push({ date: last ? DT.addDays(last.date, 1) : T2.start, place: '', title: '', text: '' }); S.dirty = true; render(); break;
+      case 'redate': var T3 = tour(); T3.route.forEach(function (x, i) { x.date = DT.addDays(T3.start, i); }); if (T3.route.length) T3.end = T3.route[T3.route.length - 1].date; S.dirty = true; render(); break;
+      case 'archive': tour().archived = !tour().archived; S.dirty = true; render(); break;
+      case 'newTour':
+        var st = todayISO();
+        S.admin.tours.push({ id: 'tour-' + Date.now().toString(36), title: 'Золотое кольцо Турции', subtitle: 'Анталья · Памуккале · Каппадокия', start: st, end: DT.addDays(st, 7), route: DT.defaultRoute(st), groups: [], arrivals: [] });
+        S.tourIdx = S.admin.tours.length - 1; S.groupIdx = 0; S.dirty = true; render(); break;
+    }
+  });
+
+  app.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.id === 'whoQ') { document.getElementById('whoList').innerHTML = whoItems(t.value); return; }
+    if (t.id === 'gq') { S.gq = t.value; render(); return; }
+    if (t.id === 'aq') { S.aq = t.value; render(); return; }
+    if (t.id === 'newAdmin') { S.newAdminPass = t.value; if (t.value) markDirty(); return; }
+    if (t.id === 'ngName' || t.id === 'ngPhone') return;
+    if (t.dataset.a && t.tagName !== 'SELECT') { var p = t.dataset.a.split('|'), f = p.pop(); setAssign(p.join('|'), f, t.value); return; }
+    if (t.dataset.f && t.tagName !== 'SELECT') setField(t.dataset.f, t.value);
+  });
+  app.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.id === 'upGroups' && t.files[0]) uploadFile(t.files[0], 'groups');
+    else if (t.id === 'upDeps' && t.files[0]) uploadFile(t.files[0], 'dep');
+    else if (t.id === 'upKapak' && t.files[0]) uploadFile(t.files[0], 'kapak');
+    else if (t.id === 'pDate' && S.pend) S.pend.date = t.value;
+    else if (t.id === 'pAll' && S.pend) S.pend.all = t.checked;
+    else if (t.id === 'upTour') { S.tourIdx = +t.value; render(); }
+    else if (t.id === 'fg') { S.fg = t.value; render(); }
+    else if (t.id === 'fgr') { S.fgr = t.value; render(); }
+    else if (t.dataset.a && t.tagName === 'SELECT') { var p = t.dataset.a.split('|'), f = p.pop(); setAssign(p.join('|'), f, t.value); render(); }
+    else if (t.dataset.f) { setField(t.dataset.f, t.value); if (t.type === 'date' || t.tagName === 'SELECT') render(); }
+  });
+
+  app.addEventListener('focusout', function () { if (S.renderLater) { S.renderLater = false; setTimeout(function () { var ae = document.activeElement; if (!ae || !/INPUT|TEXTAREA|SELECT/.test(ae.tagName)) render(); else S.renderLater = true; }, 0); } });
+  window.addEventListener('online', function () { flushMarks(); pullMarks(); });
+  app.addEventListener('dragover', function (e) { var d = e.target.closest('.drop'); if (d) { e.preventDefault(); d.classList.add('over'); } });
+  app.addEventListener('dragleave', function (e) { var d = e.target.closest('.drop'); if (d) d.classList.remove('over'); });
+  app.addEventListener('drop', function (e) { var d = e.target.closest('.drop'); if (!d) return; e.preventDefault(); d.classList.remove('over'); var f = e.dataTransfer && e.dataTransfer.files[0]; if (f) uploadFile(f, d.dataset.kind); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S.guest) { S.guest = null; render(); } });
+
+  /* ---------- boot ---------- */
+  dataReady.then(function () { S.loaded = true; if (S.view === 'login') render(); });
+  function openPayload(p, preview, code) {
+    if (p.role === 'guide') { openGuide(p, preview); if (!preview && code && HOSTED) DT.markKey(code).then(startMarks); }
+    else openGroup(p, preview);
+  }
+  render();
+  var saved = load('dt.code');
+  if (saved) dataReady.then(function () { return DATA.groups ? DT.unlockGroup(DATA, saved) : null; }).then(function (p) { if (p && S.view === 'login') openPayload(p, false, saved); });
+  window.addEventListener('hashchange', function () { if (S.view === 'login') render(); });
+  if (window.claude && window.claude.use) {
+    window.claude.use('user').then(function (u) {
+      if (!u) return null;
+      return Promise.all([u.canEdit(), u.isOwner()]).then(function (r) {
+        S.canEdit = !!(r[0] || r[1]);
+        if (S.canEdit && S.view === 'login') render();
+      });
+    }).catch(function () {});
+    window.claude.use('artifact').then(function (a) { S.artifact = a || null; }).catch(function () {});
+    window.claude.use('downloads').then(function (dl) { S.downloads = dl || null; }).catch(function () {});
+  }
+})();
+</script>
+
+</body>
+</html>

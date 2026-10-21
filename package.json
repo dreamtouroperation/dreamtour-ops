@@ -1,0 +1,9 @@
+{
+  "name": "dreamtour-ops",
+  "private": true,
+  "type": "module",
+  "description": "Dream Tour: кабинет туриста, кабинет гида и операционный центр",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
